@@ -1,4 +1,5 @@
 package com.group4.controller.accountServlet;
+import com.group4.controller.financialServlet.RevenueServlet;
 import com.group4.model.account.Account;
 import com.group4.model.account.Role;
 import com.group4.service.accountService.AccountService;
@@ -19,6 +20,7 @@ import java.util.List;
 public class AccountServlet extends HttpServlet {
     private final AccountService accountService = new AccountService();
     private final IRoleService roleService = new RoleService();
+    RevenueServlet revenueServlet = new RevenueServlet();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,6 +43,7 @@ public class AccountServlet extends HttpServlet {
                 break;
             case "showUserPage":
                 showUserPage(request, response);
+                revenueServlet.listRevenue(request, response);
                 break;
             case "showAdminCreateAccount":
                 showAdminCreateAccount(request,response);
