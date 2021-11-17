@@ -1,7 +1,6 @@
 package com.group4.service.spending_month_limit;
 
 import com.group4.model.account.Account;
-import com.group4.model.financial.Revenue;
 import com.group4.model.limit.SpendingMonthLimit;
 import com.group4.service.accountService.AccountService;
 import com.group4.service.accountService.IAccountService;

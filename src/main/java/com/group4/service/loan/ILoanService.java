@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ILoanService extends IService<Loan> {
     public List<Loan> findAllById(int id);
+    public List<Loan> getPendingLoan();
+    public List<Loan> getRejectLoan(int id);
 
 }

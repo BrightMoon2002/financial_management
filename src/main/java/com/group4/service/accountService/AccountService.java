@@ -38,7 +38,8 @@ public class AccountService implements IAccountService {
                 String dob = resultSet.getString("dob");
                 String email = resultSet.getString("email");
                 String address = resultSet.getString("address");
-                Boolean status = Boolean.parseBoolean(resultSet.getString("status"));
+                boolean status = resultSet.getBoolean("status");
+                System.out.println(status);
                 int role_id = resultSet.getInt("role_id");
                 Role role = roleService.findById(role_id);
                 accountList.add(new Account(id, username, password, name, dob, email, address, status, role));
@@ -84,7 +85,7 @@ public class AccountService implements IAccountService {
                 String dob = resultSet.getString("dob");
                 String email = resultSet.getString("email");
                 String address = resultSet.getString("address");
-                Boolean status = Boolean.parseBoolean(resultSet.getString("status"));
+                boolean status = resultSet.getBoolean("status");
                 int role_id = resultSet.getInt("role_id");
                 Role role = roleService.findById(role_id);
                 account = new Account(id, username, password, name, dob, email, address, status, role);

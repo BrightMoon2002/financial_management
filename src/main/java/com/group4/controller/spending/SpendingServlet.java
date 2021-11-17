@@ -1,7 +1,6 @@
 package com.group4.controller.spending;
 
 import com.group4.model.account.Account;
-import com.group4.model.financial.Revenue;
 import com.group4.model.financial.Spending;
 import com.group4.service.accountService.AccountService;
 import com.group4.service.spendingService.ISpendingDAO;
@@ -68,19 +67,31 @@ public class SpendingServlet extends HttpServlet {
     }
 
     private void ShowEditSpending(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        int account_id = Integer.parseInt(request.getParameter("id"));
-        Spending spending = spendingDAO.findById(account_id);
-        request.setAttribute("spending", spending);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/edit.jsp");
-        requestDispatcher.forward(request, response);
+        HttpSession session = request.getSession();
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
+        if (accountLogging.getRole().getId() == 1) {
+            response.sendRedirect("/spending");
+        } else {
+            int account_id = Integer.parseInt(request.getParameter("id"));
+            Spending spending = spendingDAO.findById(account_id);
+            request.setAttribute("spending", spending);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/edit.jsp");
+            requestDispatcher.forward(request, response);
+        }
     }
 
     private void showDeleteSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Spending spending = spendingDAO.findById(id);
-        request.setAttribute("spending", spending);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/delete.jsp");
-        requestDispatcher.forward(request, response);
+        HttpSession session = request.getSession();
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
+        if (accountLogging.getRole().getId() == 1) {
+            response.sendRedirect("/spending");
+        } else {
+            int id = Integer.parseInt(request.getParameter("id"));
+            Spending spending = spendingDAO.findById(id);
+            request.setAttribute("spending", spending);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/delete.jsp");
+            requestDispatcher.forward(request, response);
+        }
     }
 
     private void showSearch(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
@@ -191,25 +202,26 @@ public class SpendingServlet extends HttpServlet {
 
     private void editSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         HttpSession session = request.getSession();
-       Account accountLogging=(Account) session.getAttribute("accountLogging");
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
         int id = Integer.parseInt(request.getParameter("id"));
         String type = request.getParameter("type");
         double amount = Double.parseDouble(request.getParameter("amount"));
         Date date = Date.valueOf(request.getParameter("date"));
         String description = request.getParameter("description");
-        Spending spending = new Spending(id, type,description, amount, date, accountLogging);
-        spendingDAO.save(spending);
+        Spending spending = new Spending(id, type, description, amount, date, accountLogging);
+        spendingDAO.update(spending);
         response.sendRedirect("/spending");
+
     }
 
     private void createNewSpending(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
         String type = request.getParameter("type");
         String description = request.getParameter("description");
-        Double amount = Double.valueOf(request.getParameter("amount"));
-        Date date = Date.valueOf("date");
-        int account_id = Integer.parseInt(request.getParameter("id"));
-        Account account = accountService.findById(account_id);
-        Spending spending = new Spending(type, description, amount, date, account);
+        double amount = Double.parseDouble(request.getParameter("amount"));
+        Date date = Date.valueOf(request.getParameter("date"));
+        Spending spending = new Spending(type, description, amount, date, accountLogging);
         spendingDAO.save(spending);
         response.sendRedirect("/spending");
     }
