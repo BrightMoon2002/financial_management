@@ -198,7 +198,7 @@ public class SpendingServlet extends HttpServlet {
         Date date = Date.valueOf(request.getParameter("date"));
         String description = request.getParameter("description");
         Spending spending = new Spending(id, type,description, amount, date, accountLogging);
-        spendingDAO.save(spending);
+        spendingDAO.update(spending);
         response.sendRedirect("/spending");
     }
 
