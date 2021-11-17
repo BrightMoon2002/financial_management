@@ -260,8 +260,15 @@ public class LoanServlet extends HttpServlet {
                     Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
 
                     loanService.update(loanUpdate);
-                } else {
+                } else if (status.equals("over date")){
                     id_status = 3;
+                    Loan_Status loan_status = new Loan_Status(id_status, status);
+
+                    Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+
+                    loanService.update(loanUpdate);
+                } else {
+                    id_status = 5;
                     Loan_Status loan_status = new Loan_Status(id_status, status);
 
                     Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
@@ -292,7 +299,7 @@ public class LoanServlet extends HttpServlet {
         Account account = accountService.findById(id_account);
         try {
             Interest interest = iInterestService.findById(idInterest);
-            Loan_Status loan_status = new Loan_Status(2, "chưa trả");
+            Loan_Status loan_status = new Loan_Status(2, "dont paid");
             if (idInterest == 1) {
                 LocalDate localDate = startOfLoan.toLocalDate();
                 LocalDate endOfLoan = localDate.plusMonths(1);
