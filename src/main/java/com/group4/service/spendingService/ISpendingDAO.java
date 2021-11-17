@@ -15,7 +15,7 @@ public class ISpendingDAO implements SpendingDAO {
     private Spending spending = new Spending();
     private static Connection connection = SingletonConnection.getConnection();
     private Account account = new Account();
-    private static final String INSERT_SPENDING_SQL = "INSERT INTO spending (type,amount,date,description,account_id) VALUES (?, ?, ?,?)";
+    private static final String INSERT_SPENDING_SQL = "INSERT INTO spending (type,amount,date,description,account_id) VALUES (?, ?,?,?,?)";
     private static final String SELECT_ALL_SPENDING = "select * from spending";
     private static final String SELECT_SPENDING_BY_ID = "select id,type,amount,date,description,account_id from spending where id =?";
     private static final String UPDATE_SPENDING_SQL = "update spending set type = ?,amount= ?, date =?, description=? where id = ?";
@@ -53,7 +53,7 @@ public class ISpendingDAO implements SpendingDAO {
             preparedStatement.setDouble(2, spending.getAmount());
             preparedStatement.setDate(3, spending.getDate());
             preparedStatement.setString(4, spending.getDescription());
-            preparedStatement.setInt(5, spending.getId());
+            preparedStatement.setInt(5, spending.getAccount().getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             printSQLException(e);
