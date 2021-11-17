@@ -112,10 +112,10 @@ public class RevenueServlet extends HttpServlet {
 
 
 
-            } else {
+        } else {
             response.sendRedirect("view/error/error404.jsp");
         }
-        }
+    }
 
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
