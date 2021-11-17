@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: HieuDao
-  Date: 16-Nov-21
-  Time: 9:54 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>

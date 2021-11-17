@@ -17,6 +17,9 @@
     <h2>
         <a href="/spending?action=create">Add New Spending</a>
     </h2>
+    <h3><c:if test="${[meesage]!=null}">
+        <c:out value="${meesage}"></c:out>
+    </c:if></h3>
     <h2>
         <h3>Show Spending By Date</h3>
         <form action="" method="get">
@@ -42,7 +45,7 @@
             <tr>
                 <td><c:out value="${spending.getAccount().getName()}"/></td>
                 <td><c:out value="${spending.type}"/></td>
-               <td><c:out value="${spending.description}"/></td>
+                <td><c:out value="${spending.description}"/></td>
                 <td><c:out value="${spending.amount}"/></td>
                 <td><c:out value="${spending.date}"/></td>
                 <td>

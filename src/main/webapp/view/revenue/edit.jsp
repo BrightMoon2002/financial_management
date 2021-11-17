@@ -47,12 +47,12 @@
                         <input type="text" name="amount" id="amount" size="45"  value="<td><fmt:formatNumber value = "${revenue.amount}" type = "currency"/></td>"/>
                     </td>
                 </tr>
-            <tr>
-                <th>Date:</th>
-                <td>
-                    <input type="date" name="date" id="date" size="15"  value="<c:out value='${revenue.date}'/>"/>
-                </td>
-            </tr>
+                <tr>
+                    <th>Date:</th>
+                    <td>
+                        <input type="date" name="date" id="date" size="15"  value="<c:out value='${revenue.date}'/>"/>
+                    </td>
+                </tr>
             </c:if>
             <tr>
                 <th>Description:</th>
@@ -61,12 +61,12 @@
                 </td>
             </tr>
             <c:if test="${role == 1}">
-            <tr>
-                <th>Account ID: </th>
-                <td>
-                    <input type="text" name="account_id" id="account_id" size="15"  value="<c:out value='${revenue.getAccount().getId()}'/>"/>
-                </td>
-            </tr>
+                <tr>
+                    <th>Account ID: </th>
+                    <td>
+                        <input type="text" name="account_id" id="account_id" size="15"  value="<c:out value='${revenue.getAccount().getId()}'/>"/>
+                    </td>
+                </tr>
             </c:if>
 
             <tr>
