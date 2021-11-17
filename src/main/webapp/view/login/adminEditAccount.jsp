@@ -2,17 +2,16 @@
   Created by IntelliJ IDEA.
   User: ACER
   Date: 17/11/2021
-  Time: 16:48
+  Time: 21:55
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
 <html>
 <head>
-    <title></title>
+    <title>Edit Account</title>
 </head>
 <style>
     @-webkit-keyframes my {
@@ -80,47 +79,46 @@
 </style>
 <body>
 <center>
-    <h1><a href="/login?action=showAdminPage" style="border: none; color: #dc3545; text-decoration: none">Home page</a>
-    </h1>
+    <h1><a href="/login?action=showAdminPage" style="border: none; color: #dc3545; text-decoration: none">Home Page</a></h1>
 </center>
 <a href="/login?action=showAccountList">Back to Account List</a>
 <div align="center">
     <form method="post">
         <table border="1" cellpadding="5" class="table table-info table-hover table-striped">
             <tr>
-                <td colspan="2" style="text-align: center"><h4>Create New Account</h4></td>
+                <td colspan="2" style="text-align: center"><h4>Edit User</h4></td>
             </tr>
             <tr>
                 <th>Username:</th>
-                <td><input type="text" name="username" size="45" placeholder="Nhập tên tài khoản" ></td>
+                <td><input type="text" name="username" size="45" value="${accountSelect.username}" ></td>
             </tr>
             <tr>
                 <th>Password:</th>
-                <td><input type="text" name="password" size="45" placeholder="Nhập mật khẩu" ></td>
+                <td><input type="text" name="password" size="45" value="${accountSelect.password}"></td>
             </tr>
             <tr>
                 <th>Name:</th>
-                <td><input type="text" name="name" size="45" placeholder="Nhập họ và tên" ></td>
+                <td><input type="text" name="name" size="45" value="${accountSelect.name}"></td>
             </tr>
             <tr>
                 <th>Day Of Birth:</th>
-                <td><input type="date" name="dob" size="45" ></td>
+                <td><input type="date" name="dob" size="45" value="${accountSelect.dob}"></td>
             </tr>
             <tr>
                 <th>Email:</th>
-                <td><input type="text" name="email" size="45" placeholder="Nhập email" ></td>
+                <td><input type="text" name="email" size="45" value="${accountSelect.email}"></td>
             </tr>
             <tr>
                 <th>Address:</th>
-                <td><input type="text" name="address" size="45" placeholder="Nhập địa chỉ"></td>
+                <td><input type="text" name="address" size="45" value="${accountSelect.address}"></td>
             </tr>
             <tr>
                 <th>Status:</th>
-                <td><input type="text" name="status" size="45" placeholder="Nhập trạng thái"></td>
+                <td><input type="text" name="status" size="45" value="${accountSelect.status}" ></td>
             </tr>
             <tr>
                 <th>Role:</th>
-                <td><input type="text" name="role_id" size="45" placeholder="(1.user,2.admin)" ></td>
+                <td><input type="text" name="role_id" size="45" value="${accountSelect.getRole().id}"  ></td>
             </tr>
             <tr>
                 <td colspan="2" align="center">

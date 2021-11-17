@@ -1,9 +1,11 @@
 package com.group4.controller.accountServlet;
+
 import com.group4.model.account.Account;
 import com.group4.model.account.Role;
 import com.group4.service.accountService.AccountService;
 import com.group4.service.roleService.IRoleService;
 import com.group4.service.roleService.RoleService;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,22 +35,25 @@ public class AccountServlet extends HttpServlet {
             case "editAccountUser":
                 showEditAccountUser(request, response);
                 break;
-            case "delete":
-//                    deleteUser(request, response);
+            case "adminEditAccount":
+                showAdminEditAccount(request,response);
+                break;
+            case "adminDeleteAccount":
+                adminDeleteAccount(request, response);
                 break;
             case "showAccountList":
-                showAccountList(request,response);
+                showAccountList(request, response);
                 break;
             case "showUserPage":
                 showUserPage(request, response);
                 break;
             case "showAdminCreateAccount":
-                showAdminCreateAccount(request,response);
+                showAdminCreateAccount(request, response);
             case "showAdminPage":
                 showAdminPage(request, response);
                 break;
             case "logoutAccount":
-                logoutAccount(request,response);
+                logoutAccount(request, response);
                 break;
             default:
                 showLogin(request, response);
@@ -56,10 +61,32 @@ public class AccountServlet extends HttpServlet {
         }
     }
 
+    private void adminDeleteAccount(HttpServletRequest request, HttpServletResponse response) {
+        int id_account = Integer.parseInt(request.getParameter("id"));
+        accountService.deleteById(id_account);
+        try {
+            response.sendRedirect("/login?action=showAccountList");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showAdminEditAccount(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("view/login/adminEditAccount.jsp");
+        int id_account = Integer.parseInt(request.getParameter("id"));
+        Account account = accountService.findById(id_account);
+        request.setAttribute("accountSelect", account);
+        try {
+            dispatcher.forward(request,response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void showAdminCreateAccount(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher("view/login/adminCreateAccount.jsp");
         try {
-            dispatcher.forward(request,response);
+            dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
@@ -67,11 +94,11 @@ public class AccountServlet extends HttpServlet {
     }
 
     private void showAccountList(HttpServletRequest request, HttpServletResponse response) {
-        List<Account>accountList = accountService.findAll();
+        List<Account> accountList = accountService.findAll();
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/listAccountWithAdmin.jsp");
-        request.setAttribute("accountList",accountList);
+        request.setAttribute("accountList", accountList);
         try {
-            requestDispatcher.forward(request,response);
+            requestDispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
@@ -114,9 +141,7 @@ public class AccountServlet extends HttpServlet {
             request.setAttribute("accountLogin", accountLogin);
             try {
                 dispatcher.forward(request, response);
-            } catch (ServletException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (ServletException | IOException e) {
                 e.printStackTrace();
             }
         }
@@ -156,8 +181,7 @@ public class AccountServlet extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
-            ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -173,14 +197,62 @@ public class AccountServlet extends HttpServlet {
                 checkLogin(request, response);
                 break;
             case "showAdminCreateAccount":
-                adminCreateAccount(request,response);
+                adminCreateAccount(request, response);
+                break;
+            case "adminEditAccount":
+                adminEditAccount(request,response);
+                break;
 
         }
 
     }
 
-    private void adminCreateAccount(HttpServletRequest request, HttpServletResponse response) {
+    private void adminEditAccount(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession(false);
+//        Account account = (Account) session.getAttribute("accountSelect");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String dob = request.getParameter("dob");
+        String email = request.getParameter("email");
+        String address = request.getParameter("address");
+        boolean status = Boolean.parseBoolean(request.getParameter("status"));
+        int role_id = Integer.parseInt(request.getParameter("role_id"));
+        Role role = roleService.findById(role_id);
+        Account account1 = new Account(id, username, password, name, dob, email, address, status, role);
+        request.setAttribute("accountSelect", account1);
+        accountService.update(account1);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/adminEditAccount.jsp");
+        session.setAttribute("accountSelect", account1);
+        request.setAttribute("message", "Successfully edited!");
+        try {
+            requestDispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void adminCreateAccount(HttpServletRequest request, HttpServletResponse response) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String dob = request.getParameter("dob");
+        String email = request.getParameter("email");
+        String address = request.getParameter("address");
+        boolean status = Boolean.parseBoolean(request.getParameter("status"));
+        System.out.println(status);
+        int role_id = Integer.parseInt(request.getParameter("role_id"));
+        Role role = roleService.findById(role_id);
+        Account account = new Account(username, password, name, dob, email, address, status, role);
+        accountService.save(account);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/adminCreateAccount.jsp");
+        request.setAttribute("message", "Account successfully created!");
+        try {
+            requestDispatcher.forward(request,response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void EditAccountUser(HttpServletRequest request, HttpServletResponse response) {
@@ -195,14 +267,14 @@ public class AccountServlet extends HttpServlet {
         String address = request.getParameter("address");
         boolean status = Boolean.parseBoolean(request.getParameter("status"));
         Role role = roleService.findById(1);
-        Account account1 = new Account(id,username,password,name,dob,email,address,status,role);
-        request.setAttribute("accountLogging",account1);
+        Account account1 = new Account(id, username, password, name, dob, email, address, status, role);
+        request.setAttribute("accountLogging", account1);
         accountService.update(account1);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/editAccountUser.jsp");
-        session.setAttribute("accountLogging",account1);
-        request.setAttribute("message","Successfully edited!");
+        session.setAttribute("accountLogging", account1);
+        request.setAttribute("message", "Successfully edited!");
         try {
-            requestDispatcher.forward(request,response);
+            requestDispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }

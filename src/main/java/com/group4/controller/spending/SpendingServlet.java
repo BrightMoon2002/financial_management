@@ -1,7 +1,6 @@
 package com.group4.controller.spending;
 
 import com.group4.model.account.Account;
-import com.group4.model.financial.Revenue;
 import com.group4.model.financial.Spending;
 import com.group4.service.accountService.AccountService;
 import com.group4.service.spendingService.ISpendingDAO;

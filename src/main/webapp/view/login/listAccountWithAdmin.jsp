@@ -48,8 +48,8 @@
                 <td><c:out value="${a.status}"/></td>
                 <td><c:out value="${a.getRole().getName()}"/></td>
                 <td>
-                    <a href="/books?action=edit&id=${b.id}">Edit</a>
-                    <a href="/books?action=delete&id=${b.id}">Delete</a>
+                    <a href="/login?action=adminEditAccount&id=${a.id}">Edit</a>
+                    <a href="/login?action=adminDeleteAccount&id=${a.id}">Delete</a>
                 </td>
             </tr>
         </c:forEach>
