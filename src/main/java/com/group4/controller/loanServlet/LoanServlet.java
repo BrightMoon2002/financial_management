@@ -100,6 +100,7 @@ public class LoanServlet extends HttpServlet {
 
     private void showListLoan(HttpServletRequest req, HttpServletResponse resp) {
         List<Loan> loanList;
+        String pendingList = req.getParameter("searchPending");
         try {
             loanList = loanService.findAll();
             req.setAttribute("list", loanList);
