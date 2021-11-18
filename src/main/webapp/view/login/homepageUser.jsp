@@ -48,7 +48,7 @@ td {
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" >
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/login?action=editAccountUser&id=${accountLogging.id}">Edit Account Information</a>
@@ -69,50 +69,48 @@ td {
                         </a>
                     </li>
                 </ul>
-
             </div>
         </div>
     </nav>
 </div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid" style="background-color: #004165">
-        <a style="color: white" class="navbar-brand" href="">Home</a>
+        <a style="color: white" class="navbar-brand" href="/login?action=showUserPage">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" >
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a style="color: white" class="nav-link" href="#">News</a>
                 </li>
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link" href="">Add Spending</a>
+                    <a style="color: white" class="nav-link" href="">Contact</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a style="color: white" class="nav-link dropdown-toggle" href="#" role="button"
+                    <a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Sort
+
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#">Sort by name</a></li>
-                        <li><a class="dropdown-item" href="#">Sort By Amount Spending</a></li>
+                        <li><a class="dropdown-item" href="/spending?action=sort&id=${account.id}">Sort By Amount
+                            Spending</a></li>
                         <li><a class="dropdown-item" href="#">Sort By Date</a></li>
                     </ul>
                 </li>
 
-
             </ul>
             <form class="d-flex" method="get" style="padding-top:10px">
                 <input type="hidden" name="action" value="search">
-                <input type="hidden" name="id" value="">
-                <input class="form-control me-2" type="text" name="date"  aria-label="Search">
-                <button class="btn btn-outline-success" type="submit" style="color: white" >Search</button>
+                <input type="hidden" name="id" value="${account.id}">
+                <input class="form-control me-2" type="text" name="date" placeholder="Date time" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit" style="color: white">Search</button>
             </form>
         </div>
     </div>
 </nav>
-
 <div class="container-fluid">
     <center>
         <div style="margin-top: 100px" class="row">
@@ -184,24 +182,25 @@ td {
             </div>
             <div class="col">
                 <h3 style="text-decoration: underline; font-style: italic; color: #6610f2">Account Balance: <fmt:formatNumber value = "${accountBalance}" type = "currency"/></h3>
-            </div>
-            <div>
-                <h2 class="header-table"><a style="text-decoration: none" href="/spending">Friend List</a> </h2>
-                <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
-                    <tr>
-                        <th>Name</th>
-                        <th>Username</th>
-                    </tr>
-                    <c:forEach var="friend" items="${friendList}">
+                <div>
+                    <h2 class="header-table"><a style="text-decoration: none" href="/spending">Friend List</a> </h2>
+                    <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
                         <tr>
-                            <td><c:out value="${friend.name}"/></td>
-                            <td><c:out value="${friend.username}"/></td>
-                            <td><a href="/spending">Give Money</a></td>
+                            <th>Name</th>
+                            <th>Username</th>
                         </tr>
-                    </c:forEach>
+                        <c:forEach var="friend" items="${friendList}">
+                            <tr>
+                                <td><c:out value="${friend.name}"/></td>
+                                <td><c:out value="${friend.username}"/></td>
+                                <td><a href="/spending?action=sendId&id=${friend.id}">Give Money</a></td>
+                            </tr>
+                        </c:forEach>
 
-                </table>
+                    </table>
+                </div>
             </div>
+
 
         </div>
     </center>
