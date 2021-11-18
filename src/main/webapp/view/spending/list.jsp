@@ -10,8 +10,16 @@
 <html>
 <head>
     <title>Title</title>
+<%--    <meta name="viewport" content="width=device-width, initial-scale=1">--%>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
+<nav class="nav nav-pills flex-column flex-sm-row">
+    <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">Active</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">Longer nav link</a>
+    <a class="flex-sm-fill text-sm-center nav-link" href="#">Link</a>
+    <a class="flex-sm-fill text-sm-center nav-link disabled">Disabled</a>
+</nav>
 </center>
 <div align="center">
     <h2>
@@ -30,7 +38,7 @@
         </form>
     </h2>
     <h2><a href="/spending?action=sort&id=${account.id}">Soft By Amount Spending</a></h2>
-    <table border="1">
+    <table>
         <caption><h2>List of Spending</h2></caption>
         <tr>
             <th>Name</th>
@@ -58,5 +66,7 @@
         </c:forEach>
     </table>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
