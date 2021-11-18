@@ -163,11 +163,6 @@ public class AccountServlet extends HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            response.sendRedirect("/login?action=showUserPage");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void showAdminEditAccount(HttpServletRequest request, HttpServletResponse response) {

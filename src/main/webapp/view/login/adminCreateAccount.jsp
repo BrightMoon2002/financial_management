@@ -73,18 +73,77 @@
         animation: my 700ms infinite;
     }
 
-    div {
+    #tab {
         margin-left: 400px;
         width: 700px;
     }
 </style>
 <body>
-<center>
-    <h1><a href="/login?action=showAdminPage" style="border: none; color: #dc3545; text-decoration: none">Home page</a>
-    </h1>
-</center>
+<div class="nav">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
+        <div class="container-fluid">
+            <!------Logo------->
+            <a class="navbar-brand" href="#" style="border-right: 1px solid black; padding-right: 1px; text-align: center">
+                <img src="view/images/logo.jpg" alt="logo" width="60%" >
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!--------Log Out----------->
+            <ul class="navbar-nav mb-2 mb-lg-0 navbar-right">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/login?action=logoutAccount">
+                        Logout
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="background-color: #004165">
+        <a style="color: white" class="navbar-brand" href="/login?action=showUserPage">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a style="color: white" class="nav-link" href="">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a style="color: white" class="nav-link" href="/spending?action=create&id=${account.id}">Add Spending</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Sort by name</a></li>
+                        <li><a class="dropdown-item" href="/spending?action=sort&id=${account.id}">Sort By Amount
+                            Spending</a></li>
+                        <li><a class="dropdown-item" href="#">Sort By Date</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex" method="get" style="padding-top:10px">
+                <input type="hidden" name="action" value="search">
+                <input type="hidden" name="id" value="${account.id}">
+                <input class="form-control me-2" type="text" name="date" placeholder="Date time" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit" style="color: white">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
 <a href="/login?action=showAccountList">Back to Account List</a>
-<div align="center">
+<div align="center" id="tab">
     <form method="post">
         <table border="1" cellpadding="5" class="table table-info table-hover table-striped">
             <tr>

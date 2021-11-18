@@ -164,24 +164,28 @@
 
                 <!----------Loan Management------------>
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link active" aria-current="page" href="/loans">Loan
-                        Management</a>
+                    <a style="color: white" class="nav-link active" aria-current="page" href="/loans">Loan</a>
                 </li>
                 </li>
 
 
                 <!--------Revenue Management---------->
                 <li class="nav-item">
-                    <a style="color: white;" class="nav-link active" href="/revenue">Revenue Management</a>
+                    <a style="color: white;" class="nav-link active" href="/revenue">Revenue</a>
 
                 </li>
 
                 <!--------Spending Management---------->
                 <li class="nav-item">
 
-                    <a style="color: white;" class="nav-link avtive" href="/spending">Spending Management</a>
-
+                    <a style="color: white;" class="nav-link avtive" href="/spending">Spending</a>
                 </li>
+
+                <!--------Spending Management---------->
+                  <li class="nav_item">
+                      <a style="color: white;" class="nav-link avtive" href="/login?action=showAccountList">Show Account</a>
+                  </li>
+
             </ul>
 
             <!--------Search Management---------->
@@ -191,7 +195,6 @@
 </nav>
 
 
-<h3 style="text-decoration: underline; font-style: italic; color: #6610f2; text-align: center ;margin-top: 25px" >Account Balance:<fmt:formatNumber value="${accountBalance}" type="currency"/></h3>
 
 <c:if test="${role == 2}">
 <!----------Content--------------->
