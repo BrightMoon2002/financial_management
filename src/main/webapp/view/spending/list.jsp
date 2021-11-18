@@ -11,14 +11,15 @@
 <head>
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
 <div class="nav">
     <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
         <div class="container-fluid">
             <a class="navbar-brand" href="#" style="border-right: 1px solid black; padding-right: 1px; text-align: center">
-                <img src="/view/login/logo.jpg" alt="microsoft icon" width="60%" >
+                <img src="/view/images/logo.jpg" alt="microsoft icon" width="60%" >
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -50,9 +51,10 @@
     </nav>
 </div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Home</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="container-fluid" style="background-color: #402C69;">
+        <a class="navbar-brand" href="/login?action=showUserPage">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -60,51 +62,38 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">News</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/spending?action=create">Add Spending</a>
+                </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Action
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Add Spending</a></li>
-                        <li><a class="dropdown-item" href="#">Sort By Amount Spending</a></li>
+                        <li><a class="dropdown-item" href="#">Sort by name</a></li>
+                        <li><a class="dropdown-item" href="/spending?action=sort&id=${account.id}">Sort By Amount Spending</a></li>
+                        <li><a class="dropdown-item" href="#">Sort By Date</a></li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
-                </li>
+
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Date" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <form class="d-flex" method="get">
+                <input type="hidden" name="action" value="search">
+                <input type="hidden" name="id" value="${account.id}">
+                <input class="form-control me-2" type="text" name="date" placeholder="Date time" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit" >Search</button>
             </form>
         </div>
     </div>
 </nav>
 </center>
 <div align="center">
-    <h2>
-        <a href="/spending?action=create">Add New Spending</a>
-    </h2>
     <h3><c:if test="${[meesage]!=null}">
         <c:out value="${meesage}"></c:out>
     </c:if></h3>
-    <h2>
-        <h3>Show Spending By Date</h3>
-        <form action="" method="get">
-            <input type="hidden" name="action" value="search">
-            <input type="hidden" name="id" value="${account.id}">
-            <input type="text" name="date" placeholder="date time">
-            <input type="submit" value="Search">
-        </form>
-    </h2>
-<<<<<<< HEAD
-    <h2><a href="/spending?action=sort&id=${account.id}">Soft By Amount Spending</a></h2>
-    <table border="1px">
-=======
-    <h2><a href="/spending?action=sort&id=${account.id}">Sort By Amount Spending</a></h2>
-    <table>
->>>>>>> 482be70e469468f0f0e28606644cf2fe44c011fd
-        <caption><h2>List of Spending</h2></caption>
+
+    <table border="1" cellpadding="5" class="table table-success table-striped table-hover">
         <tr>
             <th>Name</th>
             <th>Type</th>
@@ -132,6 +121,8 @@
     </table>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 </body>
 </html>
