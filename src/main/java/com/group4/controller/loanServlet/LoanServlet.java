@@ -39,11 +39,8 @@ public class LoanServlet extends HttpServlet {
     private IInterestService iInterestService = new InterestService();
     private IAccountService accountService = new AccountService();
     private IRevenueService revenueService = new RevenueService();
-<<<<<<< HEAD
-    private SpendingDAO spendingDAO = new SpendingDAO();
-=======
     private ISpendingDAO spendingDAO = new SpendingDAO();
->>>>>>> b84a45a225e83da011739a212cdf50f533b5138e
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
