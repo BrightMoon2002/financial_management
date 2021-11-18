@@ -1,13 +1,17 @@
 package com.group4.controller.spending;
 
+import com.group4.controller.spendingMonthLimitServlet.SpendingMonthLimitServlet;
 import com.group4.model.account.Account;
 import com.group4.model.financial.Revenue;
 import com.group4.model.financial.Spending;
+import com.group4.model.limit.SpendingMonthLimit;
 import com.group4.service.accountService.AccountService;
 import com.group4.service.financial.Revenue.IRevenueService;
 import com.group4.service.financial.Revenue.RevenueService;
 import com.group4.service.spendingService.SpendingDAO;
 import com.group4.service.spendingService.ISpendingDAO;
+import com.group4.service.spending_month_limit.ISpendingMonthLimitService;
+import com.group4.service.spending_month_limit.SpendingMonthLimitService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -23,6 +27,7 @@ public class SpendingServlet extends HttpServlet {
     private AccountService accountService = new AccountService();
     private ISpendingDAO spendingDAO = new SpendingDAO();
     private IRevenueService revenueService = new RevenueService();
+    private ISpendingMonthLimitService spendingMonthLimitService = new SpendingMonthLimitService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -221,6 +226,17 @@ public class SpendingServlet extends HttpServlet {
                 for (Spending s : listSpending) {
                     spendingTotalUser += s.getAmount();
                 }
+                SpendingMonthLimit spendingMonthLimit = null;
+
+                spendingMonthLimit = spendingMonthLimitService.findById(accountLogging.getId());
+
+                if (spendingMonthLimit != null) {
+                    request.setAttribute("limitAmount", spendingMonthLimit.getAmount());
+                } else {
+                    request.setAttribute("limitAmount", 0);
+                }
+
+
                 request.setAttribute("listSpending", listSpending);
                 request.setAttribute("accountLogging", accountLogging);
                 request.setAttribute("spendingTotalUser", spendingTotalUser);

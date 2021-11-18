@@ -147,7 +147,7 @@
 
                 <div class="input-group mb-3">
                     <span class="input-group-text" >Amount:</span>
-                    <input name="amount" id="amoun1t"  type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="<fmt:formatNumber value = "${revenue.amount}" type = 'currency'/>">
+                    <input name="amount" id="amount"  type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="<fmt:formatNumber value = "${revenue.amount}" type = 'currency'/>">
                 </div>
 
 
