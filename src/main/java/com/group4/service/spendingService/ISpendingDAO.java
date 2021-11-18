@@ -16,4 +16,7 @@ public interface ISpendingDAO extends IService<Spending> {
     public List<Spending> findAllSpendingNotByAccountId(int account_id);
     public List<Spending> sortByAmountOfAccountId(int account_id) throws SQLException;
     double getTotalById(int id);
+    double checkSpendingLimit(Spending spending) throws SQLException;
+    double getAmountLimitById(int account_id) throws SQLException;
+
 }

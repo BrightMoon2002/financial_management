@@ -10,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class SpendingDAO implements ISpendingDAO {
     public static final String TOTAL_SPENDING = "SELECT SUM(amount) total from spending r group by account_id having account_id = ?;";
     private AccountService accountService = new AccountService();
@@ -27,6 +28,8 @@ public class SpendingDAO implements ISpendingDAO {
     public static final String SELECT_FROM_SPENDING_BY_DATE_OF_ACCOUNT_ID = "select *from spending where date =? and account_id=? order by amount desc";
     public static final String SELECT_ALL_SPENDING_BY_ACCOUNT_ID = "select * from spending where account_id =?";
     public static final String SELECT_SPENDINGS_NOT_BY_ACCOUNT_ID = "select * from spending where not account_id = ?;";
+    public static final String SELECT_SUM_SPENDING_LIMIT = "select sum(amount)as'amount' from spending where date =?";
+    private static final String SELECT_AMOUNT_LIMIT_BY_ACCOUNT_ID ="select amount from spending_month_limit where account_id = ?";
 
 
     @Override
@@ -190,7 +193,7 @@ public class SpendingDAO implements ISpendingDAO {
             preparedStatement.setInt(1, account_id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                int id =  resultSet.getInt("id");
+                int id = resultSet.getInt("id");
                 String type = resultSet.getString("type");
                 double amount = resultSet.getDouble("amount");
                 Date date = resultSet.getDate("date");
@@ -227,19 +230,44 @@ public class SpendingDAO implements ISpendingDAO {
         }
         return spendings;
     }
+
     @Override
-    public double getTotalById(int id){
+    public double getTotalById(int id) {
         Double total = 0.0;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(TOTAL_SPENDING);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 total = resultSet.getDouble("total");
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return total;
+    }
+
+    @Override
+    public double checkSpendingLimit(Spending spending) throws SQLException {
+        double checkSpendingLimit = 0;
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUM_SPENDING_LIMIT);
+        preparedStatement.setDate(1,spending.getDate());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()){
+            checkSpendingLimit = resultSet.getDouble("amount");
+        }
+        return checkSpendingLimit;
+    }
+
+    @Override
+    public double getAmountLimitById(int account_id) throws SQLException {
+        double amountLimit=0;
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_AMOUNT_LIMIT_BY_ACCOUNT_ID);
+        preparedStatement.setInt(1,account_id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()){
+            amountLimit = resultSet.getDouble("amount");
+        }
+        return amountLimit;
     }
 }

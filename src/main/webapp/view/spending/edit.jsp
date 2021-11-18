@@ -78,7 +78,8 @@
                     <a style="color: white" class="nav-link" href="">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link" href="/spending?action=create&id=${account.id}">Add Spending</a>
+                    <a style="color: white" class="nav-link" href="/spending?action=create&id=${account.id}">Add
+                        Spending</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -104,31 +105,40 @@
 </nav>
 <div align="center">
     <form action="" method="post">
-        <table>
+        <table border="1" cellpadding="5" class="table table-success table-striped table-hover">
             <tr>
                 <th>Type:</th>
-                <td><input type="text" name="type"  size="45" placeholder="<c:out value="${spending.type}"/>"></td>
+                <td><input type="text" name="type" size="45" placeholder="<c:out value="${spending.type}"/>"></td>
             </tr>
             <tr>
                 <th>Description:</th>
-                <td><input type="text" name="description"  placeholder="<c:out value="${spending.description}"/>"></td>
+                <td><input type="text" name="description" placeholder="<c:out value="${spending.description}"/>"></td>
             </tr>
+            <%--            <tr>--%>
+            <%--                <th>Amount:</th>--%>
+            <%--                <td><input type="text" name="amount"  placeholder="<c:out value="${spending.amount}"/>"></td>--%>
+            <%--            </tr>--%>
+            <%--            <tr>--%>
+            <%--                <th>Date:</th>--%>
+            <%--                <td><input type="text" name="date"  placeholder="<c:out value="${spending.date}"/>"></td>--%>
+            <%--            </tr>--%>
             <tr>
-                <th>Amount:</th>
-                <td><input type="text" name="amount"  placeholder="<c:out value="${spending.amount}"/>"></td>
-            </tr>
-            <tr>
-                <th>Date:</th>
-                <td><input type="text" name="date"  placeholder="<c:out value="${spending.date}"/>"></td>
+                <td align="center">
+                    <input type="submit" value="Save">
+                </td>
             </tr>
             <tr>
                 <td>
                     <input type="hidden" name="id" value="<c:out value='${spending.id}' />"/>
                 </td>
-                <td colspan="2" align="center">
-                    <input type="submit" value="Save">
+                <td>
+                    <input type="hidden" name="amount" value="<c:out value='${spending.amount}' />"/>
+                </td>
+                <td>
+                    <input type="hidden" name="date" value="<c:out value='${spending.date}' />"/>
                 </td>
             </tr>
+
         </table>
     </form>
 </div>

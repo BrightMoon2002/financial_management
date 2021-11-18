@@ -98,6 +98,10 @@
             color: #aaa;
             margin-bottom: 0;
         }
+        form.d-flex {
+            margin-left: 195px;
+        ;
+        }
     </style>
 </head>
 <body>
@@ -154,7 +158,7 @@
                 <!----------Edit Account Information------------>
                 <li class="nav-item">
                     <a style="color: white" class="nav-link active" aria-current="page"
-                       href="/login?action=editAccountUser&id=${accountLogging.id}">Edit Account Information</a>
+                       href="/login?action=editAccountUser&id=${accountLogging.id}"  >Edit Account Information</a>
                 </li>
 
 
@@ -182,6 +186,9 @@
 
     </div>
 </nav>
+
+
+<h3 style="text-decoration: underline; font-style: italic; color: #6610f2; text-align: center ;margin-top: 25px" >Account Balance:<fmt:formatNumber value="${accountBalance}" type="currency"/></h3>
 
 <c:if test="${role == 2}">
 <!----------Content--------------->
@@ -226,7 +233,7 @@
 
 
             <div class="col">
-                <h2 class="header-table"><a style="text-decoration: none" href="/spending">Spending</a></h2>
+                <h2 class="header-table"><a style="text-decoration: none " href="/spending">Spending</a></h2>
                 <div>
                     <center>
                         <div align="center">
@@ -265,8 +272,6 @@
 
 
             <div class="col">
-                <h3 style="text-decoration: underline; font-style: italic; color: #6610f2">Account Balance:
-                    <fmt:formatNumber value="${accountBalance}" type="currency"/></h3>
                 <div>
                     <h2 class="header-table"><a style="text-decoration: none" href="#">Friend List</a></h2>
                     <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
