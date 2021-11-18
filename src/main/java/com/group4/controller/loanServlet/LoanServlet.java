@@ -235,9 +235,15 @@ public class LoanServlet extends HttpServlet {
     }
 
     private void editLoan (HttpServletRequest req, HttpServletResponse resp) {
-        int id_account = Integer.parseInt(req.getParameter("id"));
+        int id_loan = Integer.parseInt(req.getParameter("id"));
         HttpSession session = req.getSession();
         Account accountLogging = (Account) session.getAttribute("accountLogging");
+        int id_account = 0;
+        try {
+            id_account = loanService.findById(id_loan).getAccount().getId();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         try {
             Account account = accountService.findById(id_account);
             if (accountLogging.getRole().getId() == 1) {
@@ -265,9 +271,9 @@ public class LoanServlet extends HttpServlet {
 
                         if (status.equals("dont paid")) {
                             id_status = 2;
-                            Loan_Status loan_status = new Loan_Status(id_status, status);
+                            Loan_Status loan_status = new Loan_Status(id_status, "dont paid");
 
-                            Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account1, interest, loan_status);
+                            Loan loanUpdate = new Loan(id_loan, startOfLoan, endOfLoan, amount, account1, interest, loan_status);
 
                             loanService.update(loanUpdate);
                             String type = "loan";
@@ -290,7 +296,7 @@ public class LoanServlet extends HttpServlet {
                             id_status = 1;
                             Loan_Status loan_status = new Loan_Status(id_status, status);
 
-                            Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+                            Loan loanUpdate = new Loan(id_loan, startOfLoan, endOfLoan, amount, account, interest, loan_status);
 
                             loanService.update(loanUpdate);
 
@@ -299,6 +305,11 @@ public class LoanServlet extends HttpServlet {
                             String description = "paid loan " + startOfLoan;
                             Date date = Date.valueOf(LocalDate.now());
                             Account accountAdmin = accountService.findById(1);
+                            if (interest.getId()==1) {
+                                amount = amount + amount * 0.1;
+                            } else {
+                                amount = amount + amount * 0.08 * 3;
+                            }
                             Revenue revenue = new Revenue(type,description, amount, date, accountAdmin);
                             revenueService.save(revenue);
 
@@ -315,21 +326,21 @@ public class LoanServlet extends HttpServlet {
                             id_status = 4;
                             Loan_Status loan_status = new Loan_Status(id_status, status);
 
-                            Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+                            Loan loanUpdate = new Loan(id_loan, startOfLoan, endOfLoan, amount, account, interest, loan_status);
 
                             loanService.update(loanUpdate);
                         } else if (status.equals("over date")){
                             id_status = 3;
                             Loan_Status loan_status = new Loan_Status(id_status, status);
 
-                            Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+                            Loan loanUpdate = new Loan(id_loan, startOfLoan, endOfLoan, amount, account, interest, loan_status);
 
                             loanService.update(loanUpdate);
                         } else {
                             id_status = 5;
                             Loan_Status loan_status = new Loan_Status(id_status, status);
 
-                            Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+                            Loan loanUpdate = new Loan(id_loan, startOfLoan, endOfLoan, amount, account, interest, loan_status);
 
                             loanService.update(loanUpdate);
                         }
@@ -359,17 +370,17 @@ public class LoanServlet extends HttpServlet {
         double amount = Double.parseDouble(req.getParameter("amount"));
         Date startOfLoan = Date.valueOf(req.getParameter("startOfLoan"));
         int idInterest = Integer.parseInt(req.getParameter("idInterest"));
-        int id_account = Integer.parseInt(req.getParameter("id_account"));
+        HttpSession session = req.getSession();
+       Account account = (Account) session.getAttribute("accountLogging");
 
-        Account account = null;
         try {
-            account = accountService.findById(id_account);
+            account = accountService.findById(account.getId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
             Interest interest = iInterestService.findById(idInterest);
-            Loan_Status loan_status = new Loan_Status(2, "dont paid");
+            Loan_Status loan_status = new Loan_Status(4, "pending");
             if (idInterest == 1) {
                 LocalDate localDate = startOfLoan.toLocalDate();
                 LocalDate endOfLoan = localDate.plusMonths(1);
