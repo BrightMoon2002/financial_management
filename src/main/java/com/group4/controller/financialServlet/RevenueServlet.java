@@ -178,7 +178,12 @@ public class RevenueServlet extends HttpServlet {
             String description = request.getParameter("description");
             int account_id = accountLogging.getId();
 
-            Account account = accountService.findById(account_id);
+            Account account = null;
+            try {
+                account = accountService.findById(account_id);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
 
             Revenue revenue = new Revenue(type,description, amount, date, account);
 
@@ -228,7 +233,12 @@ public class RevenueServlet extends HttpServlet {
                 String description = request.getParameter("description");
                 int account_id = Integer.parseInt(request.getParameter("account_id"));
 
-                Account account = accountService.findById(account_id);
+                Account account = null;
+                try {
+                    account = accountService.findById(account_id);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
 
                 Revenue revenue = new Revenue(id, type,description, amount, date, account);
 
@@ -257,7 +267,12 @@ public class RevenueServlet extends HttpServlet {
                 String description = request.getParameter("description");
                 int account_id = accountLogging.getId();
 
-                Account account = accountService.findById(account_id);
+                Account account = null;
+                try {
+                    account = accountService.findById(account_id);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
 
                 Revenue revenue = new Revenue(id, type,description, amount, date, account);
 

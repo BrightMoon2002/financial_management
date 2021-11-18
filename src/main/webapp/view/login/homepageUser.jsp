@@ -43,7 +43,7 @@ td {
     <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
         <div class="container-fluid">
             <a class="navbar-brand" href="#" style="border-right: 1px solid black; padding-right: 1px; text-align: center">
-                <img src="/view/images/logo.jpg" alt="microsoft icon" width="60%" >
+                <img src="view/images/logo.jpg" alt="logo" width="60%" >
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -75,31 +75,42 @@ td {
     </nav>
 </div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid" style="background-color: #004165">
-        <a style="color: white" class="navbar-brand" href="">Home</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" >
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link" href="#">News</a>
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link" href="">Add Spending</a>
+                    <a class="nav-link" href="#">Link</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Sort
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Sort by name</a></li>
-                        <li><a class="dropdown-item" href="#">Sort By Amount Spending</a></li>
-                        <li><a class="dropdown-item" href="#">Sort By Date</a></li>
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+>>>>>>> e121b6845f2eb26f9e374a46adc75f42647af7ac
 
             </ul>
             <form class="d-flex" method="get" style="padding-top:10px">
@@ -183,7 +194,25 @@ td {
             </div>
             <div class="col">
                 <h3 style="text-decoration: underline; font-style: italic; color: #6610f2">Account Balance: <fmt:formatNumber value = "${accountBalance}" type = "currency"/></h3>
+                <div>
+                    <h2 class="header-table"><a style="text-decoration: none" href="/spending">Friend List</a> </h2>
+                    <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
+                        <tr>
+                            <th>Name</th>
+                            <th>Username</th>
+                        </tr>
+                        <c:forEach var="friend" items="${friendList}">
+                            <tr>
+                                <td><c:out value="${friend.name}"/></td>
+                                <td><c:out value="${friend.username}"/></td>
+                                <td><a href="/spending?action=sendId&id=${friend.id}">Give Money</a></td>
+                            </tr>
+                        </c:forEach>
+
+                    </table>
+                </div>
             </div>
+
 
         </div>
     </center>
