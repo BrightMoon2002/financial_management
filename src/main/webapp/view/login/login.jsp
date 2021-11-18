@@ -70,7 +70,7 @@
 
     .login-box .user-box input {
         width: 100%;
-        padding: 10px 0;
+        padding: 10px 12px;
         font-size: 16px;
         color: #fff;
         margin-bottom: 30px;
@@ -98,6 +98,7 @@
         color: #03e9f4;
         font-size: 12px;
     }
+
 
     /*.login-box form a {*/
     /*    position: relative;*/
@@ -221,6 +222,7 @@
         </div>
         <input type="submit" value="Log In" class="btn btn-outline-info">
     </form>
+    <br>
     <a href="/login?action=create"><input type="submit" value="Create New Account" class="btn btn-outline-info"></a>
     <p style="color: red; text-align: center">
         <c:if test="${message!= null}">
