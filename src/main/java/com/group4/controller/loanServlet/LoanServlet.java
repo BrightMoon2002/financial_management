@@ -134,7 +134,7 @@ public class LoanServlet extends HttpServlet {
         HttpSession session = req.getSession();
         Account accountLogging = (Account) session.getAttribute("accountLogging");
         int idRoll = accountLogging.getRole().getId();
-        if (idRoll == 1) {
+        if (idRoll == 2) {
             loanList = loanService.findAllById(accountLogging.getId());
             req.setAttribute("list", loanList);
         } else {

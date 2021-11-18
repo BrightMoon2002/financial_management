@@ -7,6 +7,7 @@ import com.group4.service.accountService.AccountService;
 import com.group4.service.financial.Revenue.IRevenueService;
 import com.group4.service.financial.Revenue.RevenueService;
 import com.group4.service.spendingService.ISpendingDAO;
+import com.group4.service.spendingService.SpendingDAO;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -20,7 +21,7 @@ import java.util.List;
 @WebServlet(name = "SpendingServlet", value = "/spending")
 public class SpendingServlet extends HttpServlet {
     private AccountService accountService = new AccountService();
-    private ISpendingDAO spendingDAO = new ISpendingDAO();
+    private SpendingDAO spendingDAO = new ISpendingDAO();
     private IRevenueService revenueService = new RevenueService();
 
     @Override
@@ -82,17 +83,28 @@ public class SpendingServlet extends HttpServlet {
         String description = request.getParameter("description");
         double amount = Double.parseDouble(request.getParameter("amount"));
         Date date = Date.valueOf(LocalDate.now());
-        Spending spending = new Spending(type, description, amount, date, accountLogging);
-        spendingDAO.save(spending);
-        int idFriend = Integer.parseInt(request.getParameter("id"));
-        Account accountFriend = accountService.findById(idFriend);
-        Revenue revenue = new Revenue(type, description, amount, date, accountFriend);
-        revenueService.save(revenue);
+        double totalRevenue = revenueService.getTotalById(accountLogging.getId());
+        double totalSpending = spendingDAO.getTotalById(accountLogging.getId());
+        double balance = totalRevenue - totalSpending;
+        if (balance >= amount) {
+            Spending spending = new Spending(type, description, amount, date, accountLogging);
+            spendingDAO.save(spending);
+            int idFriend = Integer.parseInt(request.getParameter("id"));
+            Account accountFriend = accountService.findById(idFriend);
+            Revenue revenue = new Revenue(type, description, amount, date, accountFriend);
+            revenueService.save(revenue);
+            try {
+                response.sendRedirect("/spending");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {}
         try {
-            response.sendRedirect("/spending");
+            response.sendRedirect("/loans");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private void ShowEditSpending(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {

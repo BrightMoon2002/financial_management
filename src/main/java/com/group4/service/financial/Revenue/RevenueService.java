@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RevenueService implements IRevenueService {
+    public static final String SUM_REVENUE = "SELECT SUM(amount) total from revenue r group by account_id having account_id = ?;";
     Connection connection = SingletonConnection.getConnection();
     private static final String SELECT_ALL_REVENUES = "select * from revenue;";
     private static final String INSERT_REVENUE_SQL = "insert into revenue (type, amount, date, description, account_id) values (?, ?, ?, ?, ?);";
@@ -188,6 +189,21 @@ public class RevenueService implements IRevenueService {
         }
 
         return revenues;
+    }
+
+    public double getTotalById(int id){
+        Double total = 0.0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SUM_REVENUE);
+            preparedStatement.setInt(1, id);
+           ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+             total = resultSet.getDouble("total");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return total;
     }
 
 

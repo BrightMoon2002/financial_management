@@ -13,4 +13,5 @@ public interface SpendingDAO extends IService<Spending> {
     public List<Spending> findByDateOfAccountId(Date date,int account_id) throws SQLException;
     public List<Spending> findAllSpendingByAccountId(int account_id) throws SQLException;
     public List<Spending> sortByAmountOfAccountId(int account_id) throws SQLException;
+    double getTotalById(int id);
 }
