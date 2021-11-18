@@ -173,14 +173,14 @@
 
                 <!--------Revenue Management---------->
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link" href="/revenue">Revenue Management</a>
+                    <a style="color: white;padding-top:20px" class="nav-link" href="/revenue">Revenue Management</a>
                 </li>
 
                 <!--------Spending Management---------->
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link" href="/spending">Spending Management</a>
+                    <a style="color: white;padding-top: 20px" class="nav-link" href="/spending">Spending Management</a>
                 </li>
-                <li class="nav-item" style="margin-left: 100px">
+                <li class="nav-item" style="margin-left: 200px">
                     <form class="d-flex" method="get" style="padding-top:10px">
                         <input type="hidden" name="action" value="search">
                         <input type="hidden" name="id" value="${account.id}">

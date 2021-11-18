@@ -25,6 +25,8 @@ public class ISpendingDAO implements SpendingDAO {
     public static final String SELECT_FROM_SPENDING_BY_DATE = "select *from spending where date =? order by amount desc";
     public static final String SELECT_FROM_SPENDING_BY_DATE_OF_ACCOUNT_ID = "select *from spending where date =? and account_id=? order by amount desc";
     public static final String SELECT_ALL_SPENDING_BY_ACCOUNT_ID = "select * from spending where account_id =?";
+    public static final String SELECT_SUM_SPENDING_LIMIT = "select sum(amount)as'amount' from spending where date =?";
+    private static final String SELECT_AMOUNT_LIMIT_BY_ACCOUNT_ID ="select amount from spending_month_limit where account_id = ?";
 
     @Override
     public List<Spending> findAll() throws SQLException {
@@ -209,5 +211,29 @@ public class ISpendingDAO implements SpendingDAO {
             throwables.printStackTrace();
         }
         return total;
+    }
+
+    @Override
+    public double checkSpendingLimit(Spending spending) throws SQLException {
+        double checkSpendingLimit = 0;
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUM_SPENDING_LIMIT);
+        preparedStatement.setDate(1,spending.getDate());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()){
+            checkSpendingLimit = resultSet.getDouble("amount");
+        }
+        return checkSpendingLimit;
+    }
+
+    @Override
+    public double getAmountLimitById(int account_id) throws SQLException {
+        double amountLimit=0;
+       PreparedStatement preparedStatement = connection.prepareStatement(SELECT_AMOUNT_LIMIT_BY_ACCOUNT_ID);
+       preparedStatement.setInt(1,account_id);
+       ResultSet resultSet = preparedStatement.executeQuery();
+       while (resultSet.next()){
+           amountLimit = resultSet.getDouble("amount");
+       }
+       return amountLimit;
     }
 }
