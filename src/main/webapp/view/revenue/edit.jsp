@@ -11,70 +11,167 @@
 <html>
 <head>
     <title>Revenue Management Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .header-table {
+            position: relative;
+            padding: 0 10%;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+            color: black;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            font-family: "Montserrat", sans-serif;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+        }
+
+
+    </style>
+
+
 </head>
 <body>
-<center>
-    <h1>Revenue Management</h1>
-    <h2>
-        <a href="revenue?action=revenue">List All Revenues</a>
-    </h2>
-    <h2>
-        <a href="revenue?action=create">Add New Revenue</a>
-    </h2>
-    <h2>
-        <a href="revenue?action=findById">Find Revenue By ID</a>
-    </h2>
-</center>
+
+<div class="nav">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
+        <div class="container-fluid">
+            <!------Logo------->
+            <a class="navbar-brand" href="#" style="border-right: 1px solid black; padding-right: 1px; text-align: center">
+                <img src="view/images/logo.jpg" alt="logo" width="60%" >
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!--------Log Out----------->
+            <ul class="navbar-nav mb-2 mb-lg-0 navbar-right">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/login?action=logoutAccount">
+                        Logout
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+
+<!-----Nav Bar----->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="background-color: #004165">
+
+        <!------Home-------->
+
+        <a style="color: white" class="navbar-brand" href="/login?action=showUserPage">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+
+
+        <div class="collapse navbar-collapse" >
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                <!----------Edit Account Information------------>
+                <li class="nav-item">
+                    <a style="color: white" class="nav-link active" aria-current="page" href="/login?action=editAccountUser&id=${accountLogging.id}">Edit Account Information</a>
+                </li>
+
+
+                <!----------Loan Management------------>
+                <li class="nav-item">
+                    <a style="color: white" class="nav-link active" aria-current="page" href="/loans">Loan Management</a>
+                </li>
+                </li>
+            </ul>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <!--------Revenue Management---------->
+                <li class="nav-item">
+                    <a style="color: white" class="nav-link" href="/revenue">Revenue Management</a>
+                </li>
+
+                <!--------Spending Management---------->
+                <li class="nav-item">
+                    <a style="color: white" class="nav-link" href="/spending">Spending Management</a>
+                </li>
+            </ul>
+
+
+            <!--------Search Management---------->
+            <form class="d-flex" method="post" action="/revenue?action=findById" style="padding-top:10px">
+                <input class="form-control me-2" type="text" name="id" id="id" placeholder="Revenue ID" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit" style="color: white">Find</button>
+            </form>
+
+        </div>
+    </div>
+</nav>
+
+
 <div align="center">
-    <form method="post">
-        <table border="1" cellpadding="5">
-            <caption>
-                <h2>Edit Revenue</h2>
-            </caption>
+    <h1>Revenue Management</h1>
+    <form method="post" style="width: 50%">
+        <caption>
+            <h2>Edit Revenue</h2>
+        </caption>
+
             <c:if test="${revenue != null}">
                 <input type="hidden" name="id" value="<c:out value='${revenue.id}' />"/>
             </c:if>
-            <tr>
-                <th>Revenue Type:</th>
-                <td>
-                    <input type="text" name="type" id="type" size="45" value="<c:out value='${revenue.type}'/>"/>
-                </td>
-            </tr>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">Revenue Type:</span>
+            <input name="type" id="type"  type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="<c:out value='${revenue.type}'/>">
+        </div>
+
+
+
             <c:if test="${role == 1}">
-                <tr>
-                    <th>Amount:</th>
-                    <td>
-                        <input type="text" name="amount" id="amount" size="45"  value="<td><fmt:formatNumber value = "${revenue.amount}" type = "currency"/></td>"/>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Date:</th>
-                    <td>
-                        <input type="date" name="date" id="date" size="15"  value="<c:out value='${revenue.date}'/>"/>
-                    </td>
-                </tr>
-            </c:if>
-            <tr>
-                <th>Description:</th>
-                <td>
-                    <input type="text" name="description" id="description" size="15"  value="<c:out value='${revenue.description}'/>"/>
-                </td>
-            </tr>
-            <c:if test="${role == 1}">
-                <tr>
-                    <th>Account ID: </th>
-                    <td>
-                        <input type="text" name="account_id" id="account_id" size="15"  value="<c:out value='${revenue.getAccount().getId()}'/>"/>
-                    </td>
-                </tr>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" >Amount:</span>
+                    <input name="amount" id="amoun1t"  type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="<fmt:formatNumber value = "${revenue.amount}" type = 'currency'/>">
+                </div>
+
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" >Date:</span>
+                    <input type="date" name="date" id="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="<c:out value='${revenue.date}'/>" >
+                </div>
             </c:if>
 
-            <tr>
-                <td colspan="2" align="center">
-                    <input type="submit" value="Save"/>
-                </td>
-            </tr>
-        </table>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text" >Description:</span>
+            <input type="text" name="description" id="description" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="<c:out value='${revenue.description}'/>">
+        </div>
+
+            <c:if test="${role == 1}">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" >Account ID:</span>
+                    <input type="text" name="account_id" id="account_id" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="<c:out value='${revenue.getAccount().getId()}'/>">
+                </div>
+            </c:if>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+
     </form>
 </div>
 

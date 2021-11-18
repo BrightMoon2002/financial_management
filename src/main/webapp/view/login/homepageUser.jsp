@@ -121,6 +121,9 @@ td {
         </div>
     </div>
 </nav>
+
+
+<!----------Content--------------->
 <div class="container-fluid">
     <center>
         <div style="margin-top: 100px" class="row">
@@ -158,6 +161,9 @@ td {
                 </div>
 
             </div>
+
+
+
             <div class="col">
                 <h2 class="header-table"><a style="text-decoration: none" href="/spending">Spending</a> </h2>
                 <div>
@@ -190,6 +196,11 @@ td {
                     </center>
                 </div>
             </div>
+
+
+
+
+
             <div class="col">
                 <h3 style="text-decoration: underline; font-style: italic; color: #6610f2">Account Balance: <fmt:formatNumber value = "${accountBalance}" type = "currency"/></h3>
                 <div>
