@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService implements IAccountService {
-    public static final String SHOW_FRIEND_LIST = "SELECT id_account2, id_account1 FROM relationship_pool join account a on a.id = relationship_pool.id_account1 join account a2 on a2.id = relationship_pool.id_account2 join relationship r on relationship_pool.id_relationship = r.id_relationship where r.id_relationship = 1 AND id_account1 = ? OR id_account2 = ?;";
-    public static final String SHOW_BLOCK_LIST = "SELECT id_account2, id_account1 FROM relationship_pool join account a on a.id = relationship_pool.id_account1 join account a2 on a2.id = relationship_pool.id_account2 join relationship r on relationship_pool.id_relationship = r.id_relationship where r.id_relationship = 2 AND id_account1 = ? OR id_account2 = ?;";
-    public static final String SELECT_ACCOUT_BY_USERNAME = "SELECT * from account a where a.username = ?;";
+    public static final String SHOW_FRIEND_LIST = "SELECT id_account2, id_account1 FROM relationship_pool join account a on a.id = relationship_pool.id_account1 join account a2 on a2.id = relationship_pool.id_account2 join relationship r on relationship_pool.id_relationship = r.id_relationship where r.id_relationship = 1 AND (id_account1 = ? OR id_account2 = ?);";
+    public static final String SHOW_FRIEND_BLOCK = "SELECT id_account2, id_account1 FROM relationship_pool join account a on a.id = relationship_pool.id_account1 join account a2 on a2.id = relationship_pool.id_account2 join relationship r on relationship_pool.id_relationship = r.id_relationship where r.id_relationship = 2 AND (id_account1 = ? OR id_account2 = ?);";
+    public static final String SELECT_ACCOUNT_BY_USERNAME = "SELECT * from account a where a.username = ?;";
     private final Connection connection = SingletonConnection.getConnection();
     private final IRoleService roleService = new RoleService();
 
@@ -174,28 +174,30 @@ public class AccountService implements IAccountService {
        return showFriendListByType(SHOW_FRIEND_LIST, id);
     }
     public List<Account> showBlockList(int id) {
-        return showFriendListByType(SHOW_BLOCK_LIST, id);
+        return showFriendListByType(SHOW_FRIEND_BLOCK, id);
     }
 
     public static void main(String[] args) {
         AccountService accountService = new AccountService();
-        List<Account> accountList = accountService.showFriendList(1);
-        List<Account> accountList1 = accountService.showBlockList(2);
-        for (Account a: accountList
-             ) {
-            System.out.println(a);
-        }
-        System.out.println("-------------");
-        for (Account a: accountList1
-             ) {
-            System.out.println(a);
-        }
+//        List<Account> accountList = accountService.showFriendList(1);
+//        List<Account> accountList1 = accountService.showBlockList(2);
+//        for (Account a: accountList
+//             ) {
+//            System.out.println(a);
+//        }
+//        System.out.println("-------------");
+//        for (Account a: accountList1
+//             ) {
+//            System.out.println(a);
+//        }
+//        accountService.deleteFriend(2, 4);
+
     }
 
     public Account searchUserByUsername(String username) {
         Account account = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ACCOUT_BY_USERNAME);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ACCOUNT_BY_USERNAME);
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
@@ -203,6 +205,7 @@ public class AccountService implements IAccountService {
                 account = findById(id);
 
             }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -226,7 +229,7 @@ public class AccountService implements IAccountService {
     public boolean deleteFriend(int id1, int id2) {
         boolean rowUnFriend = false;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM relationship_pool where id_account1 = ? AND id_account2 = ? OR id_account1 = ? or id_accoutn2 = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM relationship_pool where id_relationship = 1 AND (id_account1 = ? AND id_account2 = ?) OR (id_account1 = ? AND id_account2 = ?);");
             preparedStatement.setInt(1, id1);
             preparedStatement.setInt(2, id2);
             preparedStatement.setInt(3, id2);

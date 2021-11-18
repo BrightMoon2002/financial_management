@@ -96,7 +96,8 @@ public class AccountServlet extends HttpServlet {
                 e.printStackTrace();
             }
         } else {
-            accountService.blockFriend(account.getId(), accountLogging.getId());
+            accountService.deleteFriend(account.getId(), accountLogging.getId());
+//            accountService.blockFriend(account.getId(), accountLogging.getId());
             accountService.blockUser(account.getId(), accountLogging.getId());
         }
         try {
@@ -111,6 +112,8 @@ public class AccountServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account accountLogging = (Account) session.getAttribute("accountLogging");
         Account account = accountService.findById(id);
+        //list bạn của thằng nhập tên vào
+        List<Account> accountList = accountService.showFriendList(id);
         if (account == null) {
             try {
                 response.sendRedirect("/view/error404.jsp");
@@ -129,8 +132,18 @@ public class AccountServlet extends HttpServlet {
 
     private void showFriendList(HttpServletRequest request, HttpServletResponse response) {
        String username = request.getParameter("username");
+       HttpSession session = request.getSession();
+       Account accountLogging = (Account) session.getAttribute("accountLogging");
 
         Account account = accountService.searchUserByUsername(username);
+
+        List<Account> accountList = accountService.showBlockList(accountLogging.getId());
+        for (int i = 0; i < accountList.size(); i++) {
+            if (accountList.get(i).getId() == account.getId() ) {
+                account = null;
+                break;
+            }
+        }
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/searchFriend.jsp");
         request.setAttribute("account", account);
