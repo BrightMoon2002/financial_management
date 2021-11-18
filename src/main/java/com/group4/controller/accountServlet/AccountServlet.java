@@ -1,6 +1,10 @@
 package com.group4.controller.accountServlet;
+import com.group4.controller.financialServlet.RevenueServlet;
+import com.group4.controller.spending.SpendingServlet;
 import com.group4.model.account.Account;
 import com.group4.model.account.Role;
+import com.group4.model.financial.Revenue;
+import com.group4.model.financial.Spending;
 import com.group4.service.accountService.AccountService;
 import com.group4.service.roleService.IRoleService;
 import com.group4.service.roleService.RoleService;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -20,6 +25,8 @@ import java.util.List;
 public class AccountServlet extends HttpServlet {
     private final AccountService accountService = new AccountService();
     private final IRoleService roleService = new RoleService();
+    RevenueServlet revenueServlet = new RevenueServlet();
+    SpendingServlet spendingServlet = new SpendingServlet();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -148,10 +155,43 @@ public class AccountServlet extends HttpServlet {
 
     private void showUserPage(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher("view/login/homepageUser.jsp");
+        try {
+            revenueServlet.listRevenueHompage(request, response);
+            spendingServlet.listSpendingHomepage(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
         HttpSession session = request.getSession(false);
         if (session != null) {
-            Account account = (Account) session.getAttribute("account");
-            request.setAttribute("account", account);
+            Account account = (Account) session.getAttribute("accountLogging");
+            request.setAttribute("accountLogging", account);
+
+             if (account.getRole().getId() == 1) {
+                 double revenueTotalAdmin = (double) session.getAttribute("revenueTotalAdminHomepage");
+                 request.setAttribute("revenueTotalAdmin", revenueTotalAdmin);
+             }
+
+             double spendingTotalAmount = (double) session.getAttribute("spendingTotalAmount");
+            double revenueTotalUser = (double) session.getAttribute("revenueTotalUserHomepage");
+            List<Revenue> listRevenue = (List<Revenue>) session.getAttribute("listRevenueHomepage");
+            List<Revenue> listRevenueUser = (List<Revenue>) session.getAttribute("listRevenueUserHomepage");
+            List<Spending> spendingList = (List<Spending>) session.getAttribute("spendingsHomepage");
+            double accountBalance = revenueTotalUser - spendingTotalAmount;
+
+            session.setAttribute("accountBalance", accountBalance);
+
+            request.setAttribute("listRevenue", listRevenue);
+            request.setAttribute("listRevenueUser", listRevenueUser);
+            request.setAttribute("revenueTotalUser", revenueTotalUser);
+            request.setAttribute("spendingTotalAmount", spendingTotalAmount);
+            request.setAttribute("spendings", spendingList);
+            request.setAttribute("accountBalance", accountBalance);
+
             try {
                 dispatcher.forward(request, response);
             } catch (ServletException | IOException e) {

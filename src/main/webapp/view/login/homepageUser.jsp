@@ -24,14 +24,26 @@
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
     font-family: "Montserrat", sans-serif;
 }
+
+th {
+    text-align: center;
+}
+
+td {
+    text-align: center;
+}
+
+
     </style>
+
+
 </head>
 <body>
 <div class="nav">
     <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
         <div class="container-fluid">
             <a class="navbar-brand" href="#" style="border-right: 1px solid black; padding-right: 1px; text-align: center">
-                <img src="/view/login/logo.jpg" alt="microsoft icon" width="60%" >
+                <img src="/view/images/logo.jpg" alt="microsoft icon" width="60%" >
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -68,18 +80,17 @@
     <center>
         <div style="margin-top: 100px" class="row">
             <div class="col">
-                <h2 class="header-table">Revenue</h2>
+                <h2 class="header-table"><a style="text-decoration: none" href="/revenue">Revenue</a> </h2>
                 <div>
                     <center>
                             <div align="center">
-                                <table border="1" cellpadding="5">
+                                <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
                                     <tr>
                                         <th>ID</th>
                                         <th>Type</th>
                                         <th>Amount</th>
                                         <th>Date</th>
                                         <th>Description</th>
-                                        <th>Account ID</th>
                                         <th>Actions</th>
                                     </tr>
                                     <c:forEach var="revenue" items="${listRevenue}">
@@ -89,7 +100,6 @@
                                             <td><fmt:formatNumber value = "${revenue.amount}" type = "currency"/></td>
                                             <td><c:out value="${revenue.date}"/></td>
                                             <td><c:out value="${revenue.description}"/></td>
-                                            <td><c:out value="${revenue.getAccount().getId()}"/></td>
                                             <td>
                                                 <a href="/revenue?action=edit&id=${revenue.id}">Edit</a>
                                             </td>
@@ -104,13 +114,44 @@
 
             </div>
             <div class="col">
-                <h2 class="header-table">Spending</h2>
+                <h2 class="header-table"><a style="text-decoration: none" href="/spending">Spending</a> </h2>
+                <div>
+                    <center>
+                        <div align="center">
+                            <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                    <c:forEach var="spending" items="${spendings}">
+                        <tr>
+                            <td><c:out value="${spending.id}"></c:out></td>
+                            <td><c:out value="${spending.type}"/></td>
+                            <td><fmt:formatNumber value = "${spending.amount}" type = "currency"/></td>
+                            <td><c:out value="${spending.date}"/></td>
+                            <td><c:out value="${spending.description}"/></td>
+                            <td>
+                                <a href="/spending?action=edit&id=${spending.id}">Edit</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                            </table>
+                        </div>
+                        <h3>Spending Total: <fmt:formatNumber value = "${spendingTotalAmount}" type = "currency"/></h3>
+                    </center>
+                </div>
             </div>
             <div class="col">
-                3 of 3
+                <h3 style="text-decoration: underline; font-style: italic; color: #6610f2">Account Balance: <fmt:formatNumber value = "${accountBalance}" type = "currency"/></h3>
             </div>
+
         </div>
     </center>
+
 </div>
 
 

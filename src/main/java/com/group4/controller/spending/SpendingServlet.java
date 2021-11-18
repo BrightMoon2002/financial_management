@@ -140,7 +140,7 @@ public class SpendingServlet extends HttpServlet {
         requestDispatcher.forward(request, response);
     }
 
-    private void listSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    public void listSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         HttpSession session = request.getSession(false);
         Account account = null;
         if (session != null) {
@@ -155,10 +155,37 @@ public class SpendingServlet extends HttpServlet {
         } else {
             List<Spending> spendingList = spendingDAO.findAllSpendingByAccountId(id_account);
             request.setAttribute("spendings", spendingList);
+            System.out.println(spendingList.get(0).getDescription());
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
             requestDispatcher.forward(request, response);
 
         }
+    }
+
+
+    public void listSpendingHomepage(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        Account account = null;
+        double spendingTotalAmount = 0;
+        if (session != null) {
+            account = (Account) session.getAttribute("accountLogging");
+        }
+        int id_account = account.getId();
+        if (account.getRole().getId() == 1) {
+            List<Spending> spendingList = spendingDAO.findAll();
+            session.setAttribute("spendingsHomepage", spendingList);
+            for (Spending s : spendingList) {
+                spendingTotalAmount += s.getAmount();
+            }
+
+        } else {
+            List<Spending> spendingList = spendingDAO.findAllSpendingByAccountId(id_account);
+            session.setAttribute("spendingsHomepage", spendingList);
+            for (Spending s : spendingList) {
+                spendingTotalAmount += s.getAmount();
+            }
+        }
+        session.setAttribute("spendingTotalAmount", spendingTotalAmount);
     }
 
     @Override

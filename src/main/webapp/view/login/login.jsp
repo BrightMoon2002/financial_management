@@ -7,21 +7,43 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <html>
 <head>
     <title>Login</title>
 </head>
 <style>
+<<<<<<< HEAD
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+=======
+
+    header{
+        /*background-image:url("../images/background_index.png");*/
+        background-position: center;
+        background-repeat:no-repeat;
+        background-size: cover;
+        width: 100vw;
+        height: 100vh;
+>>>>>>> 482be70e469468f0f0e28606644cf2fe44c011fd
+    }
+
     html {
         height: 100%;
     }
+<<<<<<< HEAD
+=======
     body {
         margin:0;
         padding:0;
         font-family: sans-serif;
         background: linear-gradient(#141e30, #243b55);
+
     }
+>>>>>>> 482be70e469468f0f0e28606644cf2fe44c011fd
 
     .login-box {
         position: absolute;
@@ -30,10 +52,11 @@
         width: 400px;
         padding: 40px;
         transform: translate(-50%, -50%);
-        background: rgba(0,0,0,.5);
+        background: rgba(0, 0, 0, .5);
         box-sizing: border-box;
-        box-shadow: 0 15px 25px rgba(0,0,0,.6);
+        box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
         border-radius: 10px;
+        background: linear-gradient(#141e30, #243b55);
     }
 
     .login-box h2 {
@@ -58,9 +81,10 @@
         outline: none;
         background: transparent;
     }
+
     .login-box .user-box label {
         position: absolute;
-        top:0;
+        top: 0;
         left: 0;
         padding: 10px 0;
         font-size: 16px;
@@ -187,24 +211,30 @@
     <h2>Login</h2>
     <form method="post" action="/login?action=checkLogin">
         <div class="user-box">
-            <input type="text" name="username" required="">
-            <label>Username</label>
+            <input type="text" name="username" required="" placeholder="username">
+
         </div>
         <div class="user-box">
-            <input type="password" name="password" required="">
-            <label>Password</label>
+            <input type="password" name="password" required="" placeholder="password">
+
         </div>
-        <input type="submit" value="Log In" class="btn btn-outline-info" >
+        <input type="submit" value="Log In" class="btn btn-outline-info">
     </form>
-    <a href="/login?action=create"><input type="submit" value="Create New Account" class="btn btn-outline-info" ></a>
-    <p style="color: red; text-align: center" >
+    <a href="/login?action=create"><input type="submit" value="Create New Account" class="btn btn-outline-info"></a>
+    <p style="color: red; text-align: center">
         <c:if test="${message!= null}">
             <span>${message}</span>
         </c:if>
     </p>
 </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
 </html>
