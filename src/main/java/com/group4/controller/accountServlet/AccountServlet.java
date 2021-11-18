@@ -7,8 +7,12 @@ import com.group4.model.account.Role;
 import com.group4.model.financial.Revenue;
 import com.group4.model.financial.Spending;
 import com.group4.service.accountService.AccountService;
+import com.group4.service.financial.Revenue.IRevenueService;
+import com.group4.service.financial.Revenue.RevenueService;
 import com.group4.service.roleService.IRoleService;
 import com.group4.service.roleService.RoleService;
+import com.group4.service.spendingService.ISpendingDAO;
+import com.group4.service.spendingService.SpendingDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,6 +32,8 @@ public class AccountServlet extends HttpServlet {
     private final IRoleService roleService = new RoleService();
     RevenueServlet revenueServlet = new RevenueServlet();
     SpendingServlet spendingServlet = new SpendingServlet();
+    IRevenueService revenueService = new RevenueService();
+    SpendingDAO spendingDAO = new ISpendingDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -178,8 +184,8 @@ public class AccountServlet extends HttpServlet {
             }
 
             List<Account> friendList = accountService.showFriendList(account.getId());
-            double spendingTotalAmount = (double) session.getAttribute("spendingTotalAmount");
-            double revenueTotalUser = (double) session.getAttribute("revenueTotalUserHomepage");
+            double spendingTotalAmount = spendingDAO.getTotalById(account.getId());
+            double revenueTotalUser = revenueService.getTotalById(account.getId());
             List<Revenue> listRevenue = (List<Revenue>) session.getAttribute("listRevenueHomepage");
             List<Revenue> listRevenueUser = (List<Revenue>) session.getAttribute("listRevenueUserHomepage");
             List<Spending> spendingList = (List<Spending>) session.getAttribute("spendingsHomepage");
