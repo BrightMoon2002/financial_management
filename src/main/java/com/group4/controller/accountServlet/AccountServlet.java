@@ -1,4 +1,5 @@
 package com.group4.controller.accountServlet;
+
 import com.group4.controller.financialServlet.RevenueServlet;
 import com.group4.controller.spending.SpendingServlet;
 import com.group4.model.account.Account;
@@ -42,7 +43,7 @@ public class AccountServlet extends HttpServlet {
                 showEditAccountUser(request, response);
                 break;
             case "adminEditAccount":
-                showAdminEditAccount(request,response);
+                showAdminEditAccount(request, response);
                 break;
             case "adminDeleteAccount":
                 adminDeleteAccount(request, response);
@@ -83,7 +84,7 @@ public class AccountServlet extends HttpServlet {
         Account account = accountService.findById(id_account);
         request.setAttribute("accountSelect", account);
         try {
-            dispatcher.forward(request,response);
+            dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
@@ -171,12 +172,13 @@ public class AccountServlet extends HttpServlet {
             Account account = (Account) session.getAttribute("accountLogging");
             request.setAttribute("accountLogging", account);
 
-             if (account.getRole().getId() == 1) {
-                 double revenueTotalAdmin = (double) session.getAttribute("revenueTotalAdminHomepage");
-                 request.setAttribute("revenueTotalAdmin", revenueTotalAdmin);
-             }
+            if (account.getRole().getId() == 1) {
+                double revenueTotalAdmin = (double) session.getAttribute("revenueTotalAdminHomepage");
+                request.setAttribute("revenueTotalAdmin", revenueTotalAdmin);
+            }
 
-             double spendingTotalAmount = (double) session.getAttribute("spendingTotalAmount");
+            List<Account> friendList = accountService.showFriendList(account.getId());
+            double spendingTotalAmount = (double) session.getAttribute("spendingTotalAmount");
             double revenueTotalUser = (double) session.getAttribute("revenueTotalUserHomepage");
             List<Revenue> listRevenue = (List<Revenue>) session.getAttribute("listRevenueHomepage");
             List<Revenue> listRevenueUser = (List<Revenue>) session.getAttribute("listRevenueUserHomepage");
@@ -191,6 +193,7 @@ public class AccountServlet extends HttpServlet {
             request.setAttribute("spendingTotalAmount", spendingTotalAmount);
             request.setAttribute("spendings", spendingList);
             request.setAttribute("accountBalance", accountBalance);
+            request.setAttribute("friendList", friendList);
 
             try {
                 dispatcher.forward(request, response);
@@ -239,7 +242,7 @@ public class AccountServlet extends HttpServlet {
                 adminCreateAccount(request, response);
                 break;
             case "adminEditAccount":
-                adminEditAccount(request,response);
+                adminEditAccount(request, response);
                 break;
 
         }
@@ -288,7 +291,7 @@ public class AccountServlet extends HttpServlet {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/adminCreateAccount.jsp");
         request.setAttribute("message", "Account successfully created!");
         try {
-            requestDispatcher.forward(request,response);
+            requestDispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
