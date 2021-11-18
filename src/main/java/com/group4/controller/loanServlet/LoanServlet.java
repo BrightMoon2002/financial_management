@@ -307,7 +307,12 @@ public class LoanServlet extends HttpServlet {
         int idInterest = Integer.parseInt(req.getParameter("idInterest"));
         int id_account = Integer.parseInt(req.getParameter("id_account"));
 
-        Account account = accountService.findById(id_account);
+        Account account = null;
+        try {
+            account = accountService.findById(id_account);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         try {
             Interest interest = iInterestService.findById(idInterest);
             Loan_Status loan_status = new Loan_Status(2, "dont paid");

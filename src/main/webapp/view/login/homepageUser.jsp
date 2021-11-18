@@ -43,7 +43,7 @@ td {
     <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
         <div class="container-fluid">
             <a class="navbar-brand" href="#" style="border-right: 1px solid black; padding-right: 1px; text-align: center">
-                <img src="../images/logo.jpg" alt="microsoft icon" width="60%" >
+                <img src="view/images/logo.jpg" alt="logo" width="60%" >
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -80,7 +80,7 @@ td {
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" >
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
@@ -184,6 +184,24 @@ td {
             <div class="col">
                 <h3 style="text-decoration: underline; font-style: italic; color: #6610f2">Account Balance: <fmt:formatNumber value = "${accountBalance}" type = "currency"/></h3>
             </div>
+            <div>
+                <h2 class="header-table"><a style="text-decoration: none" href="/spending">Friend List</a> </h2>
+                <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
+                    <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                    </tr>
+                    <c:forEach var="friend" items="${friendList}">
+                        <tr>
+                            <td><c:out value="${friend.name}"/></td>
+                            <td><c:out value="${friend.username}"/></td>
+                            <td><a href="/spending">Give Money</a></td>
+                        </tr>
+                    </c:forEach>
+
+                </table>
+            </div>
+
         </div>
     </center>
 

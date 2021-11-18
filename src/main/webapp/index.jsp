@@ -53,7 +53,7 @@
 
 <header>
   <div style="width: 100%; text-align: center; justify-content: space-between">
-    <img src="view/images/logo.jpg" height="89px" width="379px" style="align-items: center">
+    <img src="http://bocongan.gov.vn/Publishing_Resources/web/portal/images/logo.png" height="89px" width="379px" style="align-items: center">
   </div>
 
 
@@ -65,7 +65,7 @@
         <p style="font-size: 40px; color: #bfbbbb">Tiền bạc cũng như đàn bà: muốn giữ nó thì phải săn sóc nó, bằng không nó đi tạo hạnh phúc cho người khác.</p>
       </blockquote>
       <figcaption class="blockquote-footer" style="font-size: 30px; color: #bbb7b7">
-        E. Bourdet <cite title="Source Title">Source Title</cite>
+        Nguyễn Tiến Đào Duy Lập <cite title="Source Title"></cite>
       </figcaption>
     </figure>
     <div style="margin-right: 50px">
