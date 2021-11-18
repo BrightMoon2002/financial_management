@@ -62,11 +62,21 @@ public class AccountServlet extends HttpServlet {
                 break;
             case "showAdminCreateAccount":
                 showAdminCreateAccount(request, response);
+                break;
             case "showAdminPage":
                 showAdminPage(request, response);
                 break;
             case "logoutAccount":
                 logoutAccount(request, response);
+                break;
+            case "searchFriend":
+                showFriendList(request, response);
+                break;
+            case "addFriend":
+                addFriend(request, response);
+                break;
+            case "blockUser":
+                blockFriend(request, response);
                 break;
             default:
                 showLogin(request, response);
@@ -74,11 +84,74 @@ public class AccountServlet extends HttpServlet {
         }
     }
 
+    private void blockFriend(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession();
+        Account accountLogging = (Account)session.getAttribute("accountLogging");
+        Account account = accountService.findById(id);
+        if (account == null) {
+            try {
+                response.sendRedirect("/view/error404.jsp");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            accountService.blockFriend(account.getId(), accountLogging.getId());
+            accountService.blockUser(account.getId(), accountLogging.getId());
+        }
+        try {
+            response.sendRedirect("/login?action=showUserPage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addFriend(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession();
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
+        Account account = accountService.findById(id);
+        if (account == null) {
+            try {
+                response.sendRedirect("/view/error404.jsp");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            accountService.addFriend(accountLogging.getId(), account.getId());
+        }
+        try {
+            response.sendRedirect("/login?action=showUserPage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showFriendList(HttpServletRequest request, HttpServletResponse response) {
+       String username = request.getParameter("username");
+
+        Account account = accountService.searchUserByUsername(username);
+
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/searchFriend.jsp");
+        request.setAttribute("account", account);
+        try {
+            requestDispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private void adminDeleteAccount(HttpServletRequest request, HttpServletResponse response) {
         int id_account = Integer.parseInt(request.getParameter("id"));
         accountService.deleteById(id_account);
         try {
             response.sendRedirect("/login?action=showAccountList");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            response.sendRedirect("/login?action=showUserPage");
         } catch (IOException e) {
             e.printStackTrace();
         }
