@@ -184,8 +184,7 @@
                     <form class="d-flex" method="get" style="padding-top:10px">
                         <input type="hidden" name="action" value="search">
                         <input type="hidden" name="id" value="${account.id}">
-                        <input class="form-control me-2" type="text" name="date" placeholder="Date time"
-                               aria-label="Search">
+                        <input class="form-control me-2" type="text" name="date" placeholder="Date time" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit" style="color: white">Search</button>
                     </form>
                 </li>

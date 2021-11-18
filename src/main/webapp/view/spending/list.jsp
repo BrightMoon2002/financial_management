@@ -108,6 +108,9 @@
     </c:if></h3>
     <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
         <tr>
+            <td colspan="7" style="text-align: center"><h4>List Spending</h4></td>
+        </tr>
+        <tr>
             <th>Name</th>
             <th>Type</th>
             <th>Description</th>
