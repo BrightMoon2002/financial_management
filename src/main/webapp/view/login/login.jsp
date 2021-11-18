@@ -220,7 +220,7 @@
             <input type="password" name="password" required="" placeholder="password">
 
         </div>
-        <input type="submit" value="Log In" class="btn btn-outline-info">
+        <input type="submit" value="Log In" class="btn btn-outline-info mx-auto">
     </form>
     <br>
     <a href="/login?action=create"><input type="submit" value="Create New Account" class="btn btn-outline-info"></a>
