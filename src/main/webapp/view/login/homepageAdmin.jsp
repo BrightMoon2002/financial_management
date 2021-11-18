@@ -24,6 +24,7 @@
 <a href="revenue?action=revenue&id=${accountLogin.id}">List All Revenues</a>
 <a href="/spending">List All Spending</a>
 <h2><a href="/login?action=showAccountList">Show Account List</a></h2>
+<h1><a href="/login?action=logoutAccount">Logout</a></h1>
 
 </body>
 </html>
