@@ -183,24 +183,25 @@ td {
             </div>
             <div class="col">
                 <h3 style="text-decoration: underline; font-style: italic; color: #6610f2">Account Balance: <fmt:formatNumber value = "${accountBalance}" type = "currency"/></h3>
-            </div>
-            <div>
-                <h2 class="header-table"><a style="text-decoration: none" href="/spending">Friend List</a> </h2>
-                <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
-                    <tr>
-                        <th>Name</th>
-                        <th>Username</th>
-                    </tr>
-                    <c:forEach var="friend" items="${friendList}">
+                <div>
+                    <h2 class="header-table"><a style="text-decoration: none" href="/spending">Friend List</a> </h2>
+                    <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
                         <tr>
-                            <td><c:out value="${friend.name}"/></td>
-                            <td><c:out value="${friend.username}"/></td>
-                            <td><a href="/spending">Give Money</a></td>
+                            <th>Name</th>
+                            <th>Username</th>
                         </tr>
-                    </c:forEach>
+                        <c:forEach var="friend" items="${friendList}">
+                            <tr>
+                                <td><c:out value="${friend.name}"/></td>
+                                <td><c:out value="${friend.username}"/></td>
+                                <td><a href="/spending?action=sendId&id=${friend.id}">Give Money</a></td>
+                            </tr>
+                        </c:forEach>
 
-                </table>
+                    </table>
+                </div>
             </div>
+
 
         </div>
     </center>
