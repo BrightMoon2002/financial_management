@@ -123,7 +123,10 @@
 <center>
     <h1>Revenue Management</h1>
 
+
 </center>
+<br>
+<br>
 <c:if test="${role == 2}">
     <center>
         <div class="col">
@@ -165,69 +168,79 @@
 
 <c:if test="${role == 1}">
     <center>
-        <div align="center">
-            <table border="1" cellpadding="5">
-                <caption><h2>List of User Revenues</h2></caption>
-                <tr>
-                    <th>ID</th>
-                    <th>Type</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Account ID</th>
-                    <th>Actions</th>
-                </tr>
-                <c:forEach var="revenue" items="${listRevenueUser}">
-                    <tr>
-                        <td><c:out value="${revenue.id}"/></td>
-                        <td><c:out value="${revenue.type}"/></td>
-                        <td><fmt:formatNumber value = "${revenue.amount}" type = "currency"/></td>
-                        <td><c:out value="${revenue.date}"/></td>
-                        <td><c:out value="${revenue.description}"/></td>
-                        <td><c:out value="${revenue.getAccount().getId()}"/></td>
-                        <td>
-                            <a href="/revenue?action=edit&id=${revenue.id}">Edit</a>
-                            <a href="/revenue?action=delete&id=${revenue.id}">Delete</a>
-                        </td>
-                    </tr>
-                </c:forEach>
+        <div class="col">
+            <h2 style="padding: 0" class="header-table"><a style="text-decoration: none" href="/revenue">List Of User Revenue</a></h2>
+            <div>
+                <center>
+                    <div align="center">
+                        <table style="width: 90%;" border="1" cellpadding="5" class="table table-success table-striped table-hover ">
+                            <tr>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Account ID</th>
+                                <th>Actions</th>
+                            </tr>
+                            <c:forEach var="revenue" items="${listRevenueUser}">
+                                <tr>
+                                    <td><c:out value="${revenue.id}"/></td>
+                                    <td><c:out value="${revenue.type}"/></td>
+                                    <td><fmt:formatNumber value = "${revenue.amount}" type = "currency"/></td>
+                                    <td><c:out value="${revenue.date}"/></td>
+                                    <td><c:out value="${revenue.description}"/></td>
+                                    <td><c:out value="${revenue.getAccount().getId()}"/></td>
+                                    <td>
+                                        <a href="/revenue?action=edit&id=${revenue.id}">Edit</a>
+                                        <a href="/revenue?action=delete&id=${revenue.id}">Delete</a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </div>
+                    <h3>Revenue Total: <fmt:formatNumber value="${revenueTotalUser}" type="currency"/></h3>
+                </center>
+            </div>
 
-            </table>
         </div>
-        <h3>Revenue Total: <fmt:formatNumber value = "${revenueTotalUser}" type = "currency"/></h3>
-    </center>
 
-    <center>
-        <div align="center">
-            <table border="1" cellpadding="5">
-                <caption><h2>List of Administrator Revenues</h2></caption>
-                <tr>
-                    <th>ID</th>
-                    <th>Type</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Account ID</th>
-                    <th>Actions</th>
-                </tr>
-                <c:forEach var="revenue" items="${listRevenue}">
-                    <tr>
-                        <td><c:out value="${revenue.id}"/></td>
-                        <td><c:out value="${revenue.type}"/></td>
-                        <td><fmt:formatNumber value = "${revenue.amount}" type = "currency"/></td>
-                        <td><c:out value="${revenue.date}"/></td>
-                        <td><c:out value="${revenue.description}"/></td>
-                        <td><c:out value="${revenue.getAccount().getId()}"/></td>
-                        <td>
-                            <a href="/revenue?action=edit&id=${revenue.id}">Edit</a>
-                            <a href="/revenue?action=delete&id=${revenue.id}">Delete</a>
-                        </td>
-                    </tr>
-                </c:forEach>
+        <br>
+        <br>
 
-            </table>
+        <div class="col">
+            <h2 style="padding: 0" class="header-table"><a style="text-decoration: none" href="/revenue">List Of Administrator Revenue</a></h2>
+            <center>
+                <div align="center">
+                    <table style="width: 90%;" border="1" cellpadding="5" class="table table-success table-striped table-hover ">
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Account ID</th>
+                            <th>Actions</th>
+                        </tr>
+                        <c:forEach var="revenue" items="${listRevenue}">
+                            <tr>
+                                <td><c:out value="${revenue.id}"/></td>
+                                <td><c:out value="${revenue.type}"/></td>
+                                <td><fmt:formatNumber value = "${revenue.amount}" type = "currency"/></td>
+                                <td><c:out value="${revenue.date}"/></td>
+                                <td><c:out value="${revenue.description}"/></td>
+                                <td><c:out value="${revenue.getAccount().getId()}"/></td>
+                                <td>
+                                    <a href="/revenue?action=edit&id=${revenue.id}">Edit</a>
+                                    <a href="/revenue?action=delete&id=${revenue.id}">Delete</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+                <h3>Revenue Total: <fmt:formatNumber value = "${revenueTotalAdmin}" type = "currency"/></h3>
+            </center>
         </div>
-        <h3>Revenue Total: <fmt:formatNumber value = "${revenueTotalAdmin}" type = "currency"/></h3>
     </center>
 </c:if>
 
