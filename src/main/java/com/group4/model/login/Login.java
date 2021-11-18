@@ -7,11 +7,11 @@ import java.time.LocalDate;
 public class Login {
     private int id;
     private Account account;
-    private LocalDate login;
-    private LocalDate logout;
+    private String login;
+    private String logout;
     private Boolean status;
 
-    public Login(int id, Account account, LocalDate login, LocalDate logout, Boolean status) {
+    public Login(int id, Account account, String login, String logout, Boolean status) {
         this.id = id;
         this.account = account;
         this.login = login;
@@ -22,14 +22,14 @@ public class Login {
     public Login() {
     }
 
-    public Login(Account account, LocalDate login, LocalDate logout, Boolean status) {
+    public Login(Account account, String login, String logout, Boolean status) {
         this.account = account;
         this.login = login;
         this.logout = logout;
         this.status = status;
     }
 
-    public Login(Account account, LocalDate login, Boolean status) {
+    public Login(Account account, String login, Boolean status) {
         this.account = account;
         this.login = login;
         this.status = status;
@@ -51,19 +51,19 @@ public class Login {
         this.account = account;
     }
 
-    public LocalDate getLogin() {
+    public String getLogin() {
         return login;
     }
 
-    public void setLogin(LocalDate login) {
+    public void setLogin(String login) {
         this.login = login;
     }
 
-    public LocalDate getLogout() {
+    public String getLogout() {
         return logout;
     }
 
-    public void setLogout(LocalDate logout) {
+    public void setLogout(String logout) {
         this.logout = logout;
     }
 
@@ -73,5 +73,16 @@ public class Login {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Login{" +
+                "id=" + id +
+                ", account=" + account +
+                ", login='" + login + '\'' +
+                ", logout='" + logout + '\'' +
+                ", status=" + status +
+                '}';
     }
 }
