@@ -180,6 +180,16 @@
                 <li class="nav-item">
                     <a style="color: white" class="nav-link" href="/spending">Spending Management</a>
                 </li>
+                <li class="nav-item" style="margin-left: 100px">
+                    <form class="d-flex" method="get" style="padding-top:10px">
+                        <input type="hidden" name="action" value="search">
+                        <input type="hidden" name="id" value="${account.id}">
+                        <input class="form-control me-2" type="text" name="date" placeholder="Date time"
+                               aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit" style="color: white">Search</button>
+                    </form>
+                </li>
+
             </ul>
 
 
@@ -263,9 +273,21 @@
                 <div>
                     <h2 class="header-table"><a style="text-decoration: none" href="/spending">Friend List</a></h2>
                     <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
-                        <tr>
-                            <th>Name</th>
-                            <th>Username</th>
+                        <tr style="list-style: none">
+                            <th style="padding-top: 30px">Name</th>
+                            <th style="padding-top: 30px">Username</th>
+                            <th>
+                                <li class="nav-item" style="margin-left: 100px">
+                                    <form class="d-flex" method="get" style="padding-top:10px">
+                                        <input type="hidden" name="action" value="search">
+                                        <input type="hidden" name="id" value="${account.id}">
+                                        <input class="form-control me-2" type="text" name="date" placeholder="Name"
+                                               aria-label="Search">
+                                        <button class="btn btn-outline-success" type="submit" style="color: white">
+                                            Search
+                                        </button>
+                                    </form>
+                            </th>
                         </tr>
                         <c:forEach var="friend" items="${friendList}">
                             <tr>
