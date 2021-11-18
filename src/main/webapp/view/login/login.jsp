@@ -14,15 +14,36 @@
     <title>Login</title>
 </head>
 <style>
+<<<<<<< HEAD
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+=======
+
+    header{
+        /*background-image:url("../images/background_index.png");*/
+        background-position: center;
+        background-repeat:no-repeat;
+        background-size: cover;
+        width: 100vw;
+        height: 100vh;
+>>>>>>> 482be70e469468f0f0e28606644cf2fe44c011fd
     }
 
     html {
         height: 100%;
     }
+<<<<<<< HEAD
+=======
+    body {
+        margin:0;
+        padding:0;
+        font-family: sans-serif;
+        background: linear-gradient(#141e30, #243b55);
+
+    }
+>>>>>>> 482be70e469468f0f0e28606644cf2fe44c011fd
 
     .login-box {
         position: absolute;
@@ -190,12 +211,12 @@
     <h2>Login</h2>
     <form method="post" action="/login?action=checkLogin">
         <div class="user-box">
-            <input type="text" name="username" required="">
-            <label>Username</label>
+            <input type="text" name="username" required="" placeholder="username">
+
         </div>
         <div class="user-box">
-            <input type="password" name="password" required="">
-            <label>Password</label>
+            <input type="password" name="password" required="" placeholder="password">
+
         </div>
         <input type="submit" value="Log In" class="btn btn-outline-info">
     </form>

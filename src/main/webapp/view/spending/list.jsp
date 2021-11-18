@@ -97,8 +97,13 @@
             <input type="submit" value="Search">
         </form>
     </h2>
+<<<<<<< HEAD
     <h2><a href="/spending?action=sort&id=${account.id}">Soft By Amount Spending</a></h2>
     <table border="1px">
+=======
+    <h2><a href="/spending?action=sort&id=${account.id}">Sort By Amount Spending</a></h2>
+    <table>
+>>>>>>> 482be70e469468f0f0e28606644cf2fe44c011fd
         <caption><h2>List of Spending</h2></caption>
         <tr>
             <th>Name</th>

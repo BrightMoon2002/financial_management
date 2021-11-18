@@ -95,7 +95,7 @@ public class RevenueServlet extends HttpServlet {
                 request.setAttribute("revenueTotalAdmin", revenueTotalAdmin);
                 request.setAttribute("accountLogging", accountLogging);
                 request.setAttribute("role", accountLogging.getRole().getId());
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/homepageAdmin.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
                 requestDispatcher.forward(request, response);
             } else if (accountLogging.getRole().getId() == 2) {
                 listRevenue = revenueService.findAllByAccountId(accountLogging.getId());
@@ -106,8 +106,7 @@ public class RevenueServlet extends HttpServlet {
                 request.setAttribute("accountLogging", accountLogging);
                 request.setAttribute("revenueTotalUser", revenueTotalUser);
                 request.setAttribute("role", accountLogging.getRole().getId());
-                System.out.println("mmmmmmm" +  accountLogging.getRole().getId());
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/homepageUser.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
                 requestDispatcher.forward(request, response);
             }
 
@@ -117,6 +116,50 @@ public class RevenueServlet extends HttpServlet {
             response.sendRedirect("view/error/error404.jsp");
         }
     }
+
+    public void listRevenueHompage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        Account accountLogging = null;
+
+        accountLogging = (Account) session.getAttribute("accountLogging");
+
+        double revenueTotalUser = 0;
+        double revenueTotalAdmin = 0;
+        List<Revenue> listRevenue = null;
+        List<Revenue> listRevenueUser = null;
+        System.out.println(accountLogging.getId());
+        if (accountLogging.getRole().getId() == 1) {
+            listRevenue = revenueService.findAllByAccountId(accountLogging.getId());
+            listRevenueUser = revenueService.findAllNotByAccountId(accountLogging.getId());
+            for (Revenue r : listRevenueUser) {
+                revenueTotalUser += r.getAmount();
+            }
+            for (Revenue r : listRevenue) {
+                revenueTotalAdmin += r.getAmount();
+            }
+
+
+                session.setAttribute("listRevenueHomepage", listRevenue);
+                session.setAttribute("listRevenueUserHomepage", listRevenueUser);
+                session.setAttribute("revenueTotalUserHomepage", revenueTotalUser);
+                session.setAttribute("revenueTotalAdminHomepage", revenueTotalAdmin);
+                session.setAttribute("accountLogging", accountLogging);
+                session.setAttribute("role", accountLogging.getRole().getId());
+            } else if (accountLogging.getRole().getId() == 2) {
+                listRevenue = revenueService.findAllByAccountId(accountLogging.getId());
+                for (Revenue r : listRevenue) {
+                    revenueTotalUser += r.getAmount();
+                }
+                session.setAttribute("listRevenueHomepage", listRevenue);
+                session.setAttribute("accountLogging", accountLogging);
+                session.setAttribute("revenueTotalUserHomepage", revenueTotalUser);
+                session.setAttribute("roleHomepage", accountLogging.getRole().getId());
+
+            }
+
+
+
+        }
 
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
