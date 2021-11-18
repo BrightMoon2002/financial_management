@@ -14,36 +14,34 @@
     <title>Login</title>
 </head>
 <style>
-<<<<<<< HEAD
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-=======
 
-    header{
+    }
+
+    header {
         /*background-image:url("../images/background_index.png");*/
         background-position: center;
-        background-repeat:no-repeat;
+        background-repeat: no-repeat;
         background-size: cover;
         width: 100vw;
         height: 100vh;
->>>>>>> 482be70e469468f0f0e28606644cf2fe44c011fd
+
     }
 
     html {
         height: 100%;
     }
-<<<<<<< HEAD
-=======
+
     body {
-        margin:0;
-        padding:0;
+        margin: 0;
+        padding: 0;
         font-family: sans-serif;
         background: linear-gradient(#141e30, #243b55);
 
     }
->>>>>>> 482be70e469468f0f0e28606644cf2fe44c011fd
 
     .login-box {
         position: absolute;
