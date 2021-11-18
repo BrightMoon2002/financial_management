@@ -17,6 +17,7 @@ import java.util.List;
 public class AccountService implements IAccountService {
     public static final String SHOW_FRIEND_LIST = "SELECT id_account2, id_account1 FROM relationship_pool join account a on a.id = relationship_pool.id_account1 join account a2 on a2.id = relationship_pool.id_account2 join relationship r on relationship_pool.id_relationship = r.id_relationship where r.id_relationship = 1 AND id_account1 = ? OR id_account2 = ?;";
     public static final String SHOW_BLOCK_LIST = "SELECT id_account2, id_account1 FROM relationship_pool join account a on a.id = relationship_pool.id_account1 join account a2 on a2.id = relationship_pool.id_account2 join relationship r on relationship_pool.id_relationship = r.id_relationship where r.id_relationship = 2 AND id_account1 = ? OR id_account2 = ?;";
+    public static final String SELECT_ACCOUT_BY_USERNAME = "SELECT * from account a where a.username = ?;";
     private final Connection connection = SingletonConnection.getConnection();
     private final IRoleService roleService = new RoleService();
 
@@ -189,5 +190,78 @@ public class AccountService implements IAccountService {
              ) {
             System.out.println(a);
         }
+    }
+
+    public Account searchUserByUsername(String username) {
+        Account account = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ACCOUT_BY_USERNAME);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                int id = resultSet.getInt("id");
+                account = findById(id);
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return account;
+    }
+
+    public boolean addFriend(int id1, int id2) {
+       boolean rowAddFriend = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO relationship_pool (id_account1, id_account2, id_relationship) VALUE (?, ?, ?);");
+            preparedStatement.setInt(1, id1);
+            preparedStatement.setInt(2, id2);
+            preparedStatement.setInt(1, 1);
+           rowAddFriend =  preparedStatement.executeUpdate() > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return rowAddFriend;
+    }
+
+    public boolean deleteFriend(int id1, int id2) {
+        boolean rowUnFriend = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM relationship_pool where id_account1 = ? AND id_account2 = ? OR id_account1 = ? or id_accoutn2 = ?;");
+            preparedStatement.setInt(1, id1);
+            preparedStatement.setInt(2, id2);
+            preparedStatement.setInt(3, id2);
+            preparedStatement.setInt(4, id1);
+            rowUnFriend =  preparedStatement.executeUpdate() > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return rowUnFriend;
+    }
+    public boolean blockUser(int id1, int id2){
+        boolean rowBlock = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO relationship_pool (id_account1, id_account2, id_relationship) VALUE (?, ?, 2);");
+            preparedStatement.setInt(1, id1);
+            preparedStatement.setInt(2, id2);
+            rowBlock = preparedStatement.executeUpdate()>0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return rowBlock;
+    }
+
+    public boolean blockFriend(int id1, int id2) {
+        boolean rowBlock = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE relationship_pool SET id_relationship = 2 WHERE id_account1 = ? AND id_account2 = ? OR id_account2 = ? AND id_account1 = ?;");
+            preparedStatement.setInt(1, id1);
+            preparedStatement.setInt(2, id2);
+            preparedStatement.setInt(3, id1);
+            preparedStatement.setInt(4, id2);
+            rowBlock = preparedStatement.executeUpdate()>0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return rowBlock;
     }
 }

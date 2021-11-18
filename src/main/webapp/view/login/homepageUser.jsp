@@ -303,7 +303,7 @@
                             <tr>
                                 <td><c:out value="${friend.name}"/></td>
                                 <td><c:out value="${friend.username}"/></td>
-                                <td><a href="/spending?action=sendId&id=${friend.id}">Give Money</a></td>
+                                <td><a href="/spending?action=sendId&id=${friend.id}">Transfer</a></td>
                             </tr>
                         </c:forEach>
 
