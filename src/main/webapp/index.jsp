@@ -20,7 +20,7 @@
       text-decoration: none;
     }
     header{
-      background-image:url("");
+      background-image:url("view/images/background_index.png");
       background-position: center;
       background-repeat:no-repeat;
       background-size: cover;
@@ -35,6 +35,7 @@
       max-width: 700px;
       min-width: 500px;
       text-align: center;
+      color: white;
     }
   </style>
 </head>
@@ -46,7 +47,7 @@
   <div class="header-text">
     <h1>Liều Thì Ăn Nhiều Không Nhiều Thì Ăn Ít</h1>
     <p>Duy - Hiếu - Lập - Long</p>
-    <button id="address-frorm">Loggin</button>
+    <button id="address-frorm"><a href="/login">Loggin</a></button>
   </div>
 </header>
 
