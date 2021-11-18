@@ -100,25 +100,7 @@
     <h3><c:if test="${[meesage]!=null}">
         <c:out value="${meesage}"></c:out>
     </c:if></h3>
-<<<<<<< HEAD
-    <h2>
-        <h3>Show Spending By Date</h3>
-        <form action="" method="get">
-            <input type="hidden" name="action" value="search">
-            <input type="hidden" name="id" value="${account.id}">
-            <input type="text" name="date" placeholder="date time">
-            <input type="submit" value="Search">
-        </form>
-    </h2>
-
-    <h2><a href="/spending?action=sort&id=${account.id}">Sort By Amount Spending</a></h2>
     <table>
-
-        <caption><h2>List of Spending</h2></caption>
-=======
-
-    <table border="1" cellpadding="5" class="table table-success table-striped table-hover">
->>>>>>> a03644e0cdc882444c84d044a822052d81145c46
         <tr>
             <th>Name</th>
             <th>Type</th>
