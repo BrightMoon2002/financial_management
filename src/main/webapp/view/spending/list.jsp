@@ -74,15 +74,15 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link" href="#">News</a>
+                    <a style="color: white" class="nav-link" href="">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link" href="">Contact</a>
+                    <a style="color: white" class="nav-link" href="/spending?action=create&id=${account.id}">Add Spending</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-
+                        Sort
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#">Sort by name</a></li>
@@ -91,7 +91,6 @@
                         <li><a class="dropdown-item" href="#">Sort By Date</a></li>
                     </ul>
                 </li>
-
             </ul>
             <form class="d-flex" method="get" style="padding-top:10px">
                 <input type="hidden" name="action" value="search">
@@ -107,7 +106,7 @@
     <h3><c:if test="${[meesage]!=null}">
         <c:out value="${meesage}"></c:out>
     </c:if></h3>
-    <table>
+    <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
         <tr>
             <th>Name</th>
             <th>Type</th>
@@ -134,9 +133,7 @@
         </c:forEach>
     </table>
 </div>
-<footer>
 
-</footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
