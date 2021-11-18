@@ -98,12 +98,14 @@ public class SpendingServlet extends HttpServlet {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {}
-        try {
-            response.sendRedirect("/loans");
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            try {
+                response.sendRedirect("/loans");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
 
     }
 
