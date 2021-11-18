@@ -98,6 +98,10 @@
             color: #aaa;
             margin-bottom: 0;
         }
+        form.d-flex {
+            margin-left: 195px;
+        ;
+        }
     </style>
 </head>
 <body>
@@ -198,11 +202,10 @@
     </div>
 </nav>
 
-<<<<<<< HEAD
+
 <h3 style="text-decoration: underline; font-style: italic; color: #6610f2; text-align: center ;margin-top: 25px" >Account Balance:<fmt:formatNumber value="${accountBalance}" type="currency"/></h3>
-=======
+
 <c:if test="${role == 2}">
->>>>>>> 98e182c6dbebda59a9e996ce1c8f9f6948d94cf2
 <!----------Content--------------->
 <div class="container-fluid">
     <center>
