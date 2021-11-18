@@ -71,12 +71,12 @@
                     <a style="color: white" class="nav-link" href="#">News</a>
                 </li>
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link" href="/spending?action=create">Add Spending</a>
+                    <a style="color: white" class="nav-link" href="">Contact</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Sort
+
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#">Sort by name</a></li>
