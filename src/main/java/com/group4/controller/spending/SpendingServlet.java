@@ -242,7 +242,11 @@ public class SpendingServlet extends HttpServlet {
         }
         switch (action) {
             case "create":
-                createNewSpending(request, response);
+                try {
+                    createNewSpending(request, response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "edit":
                 try {
@@ -291,7 +295,7 @@ public class SpendingServlet extends HttpServlet {
 
     }
 
-    private void createNewSpending(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void createNewSpending(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
         HttpSession session = request.getSession();
         Account accountLogging = (Account) session.getAttribute("accountLogging");
         String type = request.getParameter("type");
@@ -300,6 +304,14 @@ public class SpendingServlet extends HttpServlet {
         Date date = Date.valueOf(request.getParameter("date"));
         Spending spending = new Spending(type, description, amount, date, accountLogging);
         spendingDAO.save(spending);
-        response.sendRedirect("/spending");
+        double spendingLimit = spendingDAO.checkSpendingLimit(spending);
+        double amountLimit = (spendingDAO.getAmountLimitById(accountLogging.getId())/30);
+        if (spendingLimit>amountLimit){
+            request.setAttribute("message","you spent more than your limit for a day!");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/create.jsp");
+            requestDispatcher.forward(request,response);
+        }else {
+            response.sendRedirect("/spending");
+        }
     }
 }

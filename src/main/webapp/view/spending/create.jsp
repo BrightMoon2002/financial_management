@@ -102,6 +102,11 @@
     </div>
 </nav>
 <div>
+    <h2 style="text-align: center;color: red" >
+        <c:if test="${[message]!=null}">
+            <c:out value="${message}"></c:out>
+        </c:if>
+    </h2>
     <form action="" method="post">
         <table border="1" cellpadding="5" class="table table-success table-striped table-hover">
             <tr>
