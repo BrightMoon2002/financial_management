@@ -281,7 +281,7 @@
                 <h3 style="text-decoration: underline; font-style: italic; color: #6610f2">Account Balance:
                     <fmt:formatNumber value="${accountBalance}" type="currency"/></h3>
                 <div>
-                    <h2 class="header-table"><a style="text-decoration: none" href="/spending">Friend List</a></h2>
+                    <h2 class="header-table"><a style="text-decoration: none" href="#">Friend List</a></h2>
                     <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
                         <tr style="list-style: none">
                             <th style="padding-top: 30px">Name</th>
