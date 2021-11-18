@@ -6,18 +6,6 @@ import com.group4.service.IService;
 import java.util.List;
 
 public interface IAccountService extends IService<Account> {
-    @Override
-    List<Account> findAll();
 
-    @Override
-    void save(Account account);
-
-    @Override
-    Account findById(int id);
-
-    @Override
-    boolean update(Account account);
-
-    @Override
-    boolean deleteById(int id);
+    List<Account> showFriendListByType(String query, int id);
 }
