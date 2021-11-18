@@ -1,8 +1,11 @@
 package com.group4.controller.spending;
 
 import com.group4.model.account.Account;
+import com.group4.model.financial.Revenue;
 import com.group4.model.financial.Spending;
 import com.group4.service.accountService.AccountService;
+import com.group4.service.financial.Revenue.IRevenueService;
+import com.group4.service.financial.Revenue.RevenueService;
 import com.group4.service.spendingService.ISpendingDAO;
 
 import javax.servlet.*;
@@ -11,12 +14,14 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 @WebServlet(name = "SpendingServlet", value = "/spending")
 public class SpendingServlet extends HttpServlet {
     private AccountService accountService = new AccountService();
     private ISpendingDAO spendingDAO = new ISpendingDAO();
+    private IRevenueService revenueService = new RevenueService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -56,6 +61,10 @@ public class SpendingServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
+            case "sendId":
+                showCreateNewFriend(request, response);
+                break;
+
             default:
                 try {
                     listSpending(request, response);
@@ -63,6 +72,26 @@ public class SpendingServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 break;
+        }
+    }
+
+    private void sendMoneyToFriend(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
+        String type = request.getParameter("type");
+        String description = request.getParameter("description");
+        double amount = Double.parseDouble(request.getParameter("amount"));
+        Date date = Date.valueOf(LocalDate.now());
+        Spending spending = new Spending(type, description, amount, date, accountLogging);
+        spendingDAO.save(spending);
+        int idFriend = Integer.parseInt(request.getParameter("id"));
+        Account accountFriend = accountService.findById(idFriend);
+        Revenue revenue = new Revenue(type, description, amount, date, accountFriend);
+        revenueService.save(revenue);
+        try {
+            response.sendRedirect("/spending");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -140,6 +169,11 @@ public class SpendingServlet extends HttpServlet {
         requestDispatcher.forward(request, response);
     }
 
+    private void showCreateNewFriend(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/createById.jsp");
+        requestDispatcher.forward(request, response);
+    }
+
     public void listSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         HttpSession session = request.getSession(false);
         Account account = null;
@@ -211,6 +245,9 @@ public class SpendingServlet extends HttpServlet {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                break;
+            case "sendId":
+                sendMoneyToFriend(request, response);
                 break;
             default:
                 try {
