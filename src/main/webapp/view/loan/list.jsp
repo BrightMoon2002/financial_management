@@ -96,12 +96,9 @@
     </div>
 </nav>
 <center>
-    <h1>Revenue Management</h1>
+    <h1>Loan Management</h1>
     <h2>
-        <a href="loans?action=create">Add New Loan</a>
-    </h2>
-    <h2>
-        <a href="loans?action=search">Find Loan By ID</a>
+        <a style="text-decoration: none; color: black" href="loans?action=create">Add New Loan</a>
     </h2>
 </center>
 <center>

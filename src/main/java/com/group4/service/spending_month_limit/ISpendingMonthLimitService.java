@@ -4,4 +4,5 @@ import com.group4.model.limit.SpendingMonthLimit;
 import com.group4.service.IService;
 
 public interface ISpendingMonthLimitService extends IService<SpendingMonthLimit> {
+    public SpendingMonthLimit findLimitByAccountId(int account_id);
 }

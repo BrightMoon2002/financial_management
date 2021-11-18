@@ -17,6 +17,7 @@ public class SpendingMonthLimitService implements ISpendingMonthLimitService{
     private static final String SELECT_LIMIT_BY_ID = "select * from spending_month_limit where id = ?;";
     private static final String UPDATE_LIMIT= "update spending_month_limit set amount = ?, account_id = ? where id = ?;";
     private static final String DELETE_LIMIT_SQL = "delete from spending_month_limit where id=?;";
+    private static final String SELECT_LIMIT_BY_ACCOUNT_ID = "select * from spending_month_limit where account_id = ?;";
     IAccountService accountService = new AccountService();
 
 
@@ -117,6 +118,27 @@ public class SpendingMonthLimitService implements ISpendingMonthLimitService{
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public SpendingMonthLimit findLimitByAccountId(int account_id) {
+        System.out.println(SELECT_LIMIT_BY_ACCOUNT_ID);
+        SpendingMonthLimit limit = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_LIMIT_BY_ACCOUNT_ID);
+            preparedStatement.setInt(1, account_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                double amount = resultSet.getDouble("amount");
+
+                Account account = accountService.findById(account_id);
+
+                limit = new SpendingMonthLimit(amount, account);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return limit;
     }
 }
 
