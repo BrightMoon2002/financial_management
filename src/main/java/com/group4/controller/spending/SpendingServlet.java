@@ -158,6 +158,7 @@ public class SpendingServlet extends HttpServlet {
             System.out.println(spendingList.get(0).getDescription());
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
             requestDispatcher.forward(request, response);
+
         }
     }
 

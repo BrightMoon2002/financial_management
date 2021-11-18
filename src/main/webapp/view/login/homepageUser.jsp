@@ -43,7 +43,7 @@ td {
     <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
         <div class="container-fluid">
             <a class="navbar-brand" href="#" style="border-right: 1px solid black; padding-right: 1px; text-align: center">
-                <img src="/view/images/logo.jpg" alt="microsoft icon" width="60%" >
+                <img src="http://bocongan.gov.vn/Publishing_Resources/web/portal/images/logo.png" alt="microsoft icon" width="60%" >
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

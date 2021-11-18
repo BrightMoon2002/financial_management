@@ -205,6 +205,9 @@
 
 </style>
 <body>
+<div class = "text-center">
+    <img src="http://bocongan.gov.vn/Publishing_Resources/web/portal/images/logo.png" >
+</div>
 <div class="login-box">
     <h2>Login</h2>
     <form method="post" action="/login?action=checkLogin">
