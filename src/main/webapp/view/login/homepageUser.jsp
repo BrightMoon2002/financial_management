@@ -173,11 +173,14 @@
                 <!--------Revenue Management---------->
                 <li class="nav-item">
                     <a style="color: white;" class="nav-link active" href="/revenue">Revenue Management</a>
+
                 </li>
 
                 <!--------Spending Management---------->
                 <li class="nav-item">
+
                     <a style="color: white;" class="nav-link avtive" href="/spending">Spending Management</a>
+
                 </li>
             </ul>
 

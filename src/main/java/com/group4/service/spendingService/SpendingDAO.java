@@ -270,4 +270,5 @@ public class SpendingDAO implements ISpendingDAO {
         }
         return amountLimit;
     }
+
 }
