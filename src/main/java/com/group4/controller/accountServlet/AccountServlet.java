@@ -11,8 +11,8 @@ import com.group4.service.financial.Revenue.IRevenueService;
 import com.group4.service.financial.Revenue.RevenueService;
 import com.group4.service.roleService.IRoleService;
 import com.group4.service.roleService.RoleService;
-import com.group4.service.spendingService.ISpendingDAO;
 import com.group4.service.spendingService.SpendingDAO;
+import com.group4.service.spendingService.ISpendingDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,7 +33,7 @@ public class AccountServlet extends HttpServlet {
     RevenueServlet revenueServlet = new RevenueServlet();
     SpendingServlet spendingServlet = new SpendingServlet();
     IRevenueService revenueService = new RevenueService();
-    SpendingDAO spendingDAO = new ISpendingDAO();
+    ISpendingDAO spendingDAO = new SpendingDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -268,22 +268,43 @@ public class AccountServlet extends HttpServlet {
             if (account.getRole().getId() == 1) {
                 double revenueTotalAdmin = (double) session.getAttribute("revenueTotalAdminHomepage");
                 request.setAttribute("revenueTotalAdmin", revenueTotalAdmin);
+                double spendingTotalAdmin = (double) session.getAttribute("spendingTotalAdminHomepage");
+                request.setAttribute("spendingTotalAdmin", spendingTotalAdmin);
             }
             List<Account> friendList = accountService.showFriendList(account.getId());
-            double spendingTotalAmount = spendingDAO.getTotalById(account.getId());
+
+            double revenueTotalAmountUserHomePage = (double) session.getAttribute("revenueTotalUserHomepage");
+            double revenueTotalAmountAdminHomePage = (double) session.getAttribute("revenueTotalAdminHomepage");
+            double spendingTotalAmountUserHomePage = (double) session.getAttribute("spendingTotalUserHomepage");
+            double spendingTotalAmountAdminHomePage = (double) session.getAttribute("spendingTotalAdminHomepage");
+
+            request.setAttribute("revenueTotalUserHomepage", revenueTotalAmountUserHomePage);
+            request.setAttribute("revenueTotalAdminHomepage", revenueTotalAmountAdminHomePage);
+            request.setAttribute("spendingTotalUserHomepage", spendingTotalAmountUserHomePage);
+            request.setAttribute("spendingTotalAdminHomepage", spendingTotalAmountAdminHomePage);
+
+
+            double spendingTotalUser = spendingDAO.getTotalById(account.getId());
             double revenueTotalUser = revenueService.getTotalById(account.getId());
             List<Revenue> listRevenue = (List<Revenue>) session.getAttribute("listRevenueHomepage");
             List<Revenue> listRevenueUser = (List<Revenue>) session.getAttribute("listRevenueUserHomepage");
-            List<Spending> spendingList = (List<Spending>) session.getAttribute("spendingsHomepage");
-            double accountBalance = revenueTotalUser - spendingTotalAmount;
+            List<Spending> listSpending = (List<Spending>) session.getAttribute("listSpendingHomepage");
+            List<Spending> listSpendingUser = (List<Spending>) session.getAttribute("listSpendingUserHomepage");
+            double accountBalance = revenueTotalUser - spendingTotalUser;
 
             session.setAttribute("accountBalance", accountBalance);
 
             request.setAttribute("listRevenue", listRevenue);
             request.setAttribute("listRevenueUser", listRevenueUser);
             request.setAttribute("revenueTotalUser", revenueTotalUser);
-            request.setAttribute("spendingTotalAmount", spendingTotalAmount);
-            request.setAttribute("spendings", spendingList);
+
+            request.setAttribute("listSpending", listSpending);
+            request.setAttribute("listSpendingUser", listSpendingUser);
+            request.setAttribute("spendingTotalUser", spendingTotalUser);
+
+
+
+
             request.setAttribute("accountBalance", accountBalance);
             request.setAttribute("friendList", friendList);
             request.setAttribute("role", account.getRole().getId());

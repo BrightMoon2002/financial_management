@@ -98,6 +98,10 @@
             color: #aaa;
             margin-bottom: 0;
         }
+        form.d-flex {
+            margin-left: 195px;
+        ;
+        }
     </style>
 </head>
 <body>
@@ -151,11 +155,10 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-
                 <!----------Edit Account Information------------>
                 <li class="nav-item">
                     <a style="color: white" class="nav-link active" aria-current="page"
-                       href="/login?action=editAccountUser&id=${accountLogging.id}">Edit Account Information</a>
+                       href="/login?action=editAccountUser&id=${accountLogging.id}"  >Edit Account Information</a>
                 </li>
 
 
@@ -165,38 +168,30 @@
                         Management</a>
                 </li>
                 </li>
-            </ul>
-        </div>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <!--------Revenue Management---------->
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link" href="/revenue">Revenue Management</a>
+                    <a style="color: white;" class="nav-link active" href="/revenue">Revenue Management</a>
+
                 </li>
 
                 <!--------Spending Management---------->
                 <li class="nav-item">
-                    <a style="color: white" class="nav-link" href="/spending">Spending Management</a>
-                </li>
-                <li class="nav-item" style="margin-left: 100px">
-                    <form class="d-flex" method="get" style="padding-top:10px">
-                        <input type="hidden" name="action" value="search">
-                        <input type="hidden" name="id" value="${account.id}">
-                        <input class="form-control me-2" type="text" name="date" placeholder="Date time" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit" style="color: white">Search</button>
-                    </form>
-                </li>
 
+                    <a style="color: white;" class="nav-link avtive" href="/spending">Spending Management</a>
+
+                </li>
             </ul>
 
-
             <!--------Search Management---------->
-
         </div>
+
     </div>
 </nav>
+
+
+<h3 style="text-decoration: underline; font-style: italic; color: #6610f2; text-align: center ;margin-top: 25px" >Account Balance:<fmt:formatNumber value="${accountBalance}" type="currency"/></h3>
 
 <c:if test="${role == 2}">
 <!----------Content--------------->
@@ -232,7 +227,7 @@
 
                             </table>
                         </div>
-                        <h3>Revenue Total: <fmt:formatNumber value="${revenueTotalUser}" type="currency"/></h3>
+                        <h3>Revenue Total: <fmt:formatNumber value="${revenueTotalUserHomepage}" type="currency"/></h3>
                     </center>
                 </div>
 
@@ -241,7 +236,7 @@
 
 
             <div class="col">
-                <h2 class="header-table"><a style="text-decoration: none" href="/spending">Spending</a></h2>
+                <h2 class="header-table"><a style="text-decoration: none " href="/spending">Spending</a></h2>
                 <div>
                     <center>
                         <div align="center">
@@ -254,9 +249,9 @@
                                     <th>Description</th>
                                     <th>Actions</th>
                                 </tr>
-                                <c:forEach var="spending" items="${spendings}">
+                                <c:forEach var="spending" items="${listSpending}">
                                     <tr>
-                                        <td><c:out value="${spending.id}"></c:out></td>
+                                        <td><c:out value="${spending.id}"/></td>
                                         <td><c:out value="${spending.type}"/></td>
                                         <td><fmt:formatNumber value="${spending.amount}" type="currency"/></td>
                                         <td><c:out value="${spending.date}"/></td>
@@ -266,11 +261,13 @@
                                         </td>
                                     </tr>
                                 </c:forEach>
+
                             </table>
                         </div>
-                        <h3>Spending Total: <fmt:formatNumber value="${spendingTotalAmount}" type="currency"/></h3>
+                        <h3>Revenue Total: <fmt:formatNumber value="${spendingTotalUserHomepage}" type="currency"/></h3>
                     </center>
                 </div>
+
             </div>
 
 
@@ -278,8 +275,6 @@
 
 
             <div class="col">
-                <h3 style="text-decoration: underline; font-style: italic; color: #6610f2">Account Balance:
-                    <fmt:formatNumber value="${accountBalance}" type="currency"/></h3>
                 <div>
                     <h2 class="header-table"><a style="text-decoration: none" href="#">Friend List</a></h2>
                     <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
@@ -318,8 +313,12 @@
 <c:if test="${role == 1}">
     <!----------Content--------------->
     <div class="container-fluid">
+        <div style="float: right; margin-bottom: 70px; margin-top: 100px; margin-right: 20px">
+            <h3 style="text-decoration: underline; font-style: italic; color: #6610f2">Account Balance:
+                <fmt:formatNumber value="${accountBalance}" type="currency"/></h3>
+        </div>
         <center>
-            <div style="margin-top: 100px" class="row">
+            <div style="margin-top: 100px; clear: both;" class="row" >
                 <div class="col">
                     <h2 class="header-table"><a style="text-decoration: none" href="/revenue">List Of User Revenue</a></h2>
                     <div>
@@ -351,7 +350,7 @@
                                     </c:forEach>
                                 </table>
                             </div>
-                            <h3>Revenue Total: <fmt:formatNumber value="${revenueTotalUser}" type="currency"/></h3>
+                            <h3>Revenue Total: <fmt:formatNumber value="${revenueTotalUserHomepage}" type="currency"/></h3>
                         </center>
                     </div>
 
@@ -387,13 +386,21 @@
                                 </c:forEach>
                             </table>
                         </div>
-                        <h3>Revenue Total: <fmt:formatNumber value = "${revenueTotalAdmin}" type = "currency"/></h3>
+                        <h3>Revenue Total: <fmt:formatNumber value = "${revenueTotalAdminHomepage}" type = "currency"/></h3>
                     </center>
                 </div>
 
 
+            </div>
+        </center>
+    </div>
+
+    <!----------Content--------------->
+    <div class="container-fluid">
+        <center>
+            <div style="margin-top: 100px" class="row">
                 <div class="col">
-                    <h2 class="header-table"><a style="text-decoration: none" href="/spending">Spending</a></h2>
+                    <h2 class="header-table"><a style="text-decoration: none" href="/spending">List Of User Spending</a></h2>
                     <div>
                         <center>
                             <div align="center">
@@ -404,31 +411,66 @@
                                         <th>Amount</th>
                                         <th>Date</th>
                                         <th>Description</th>
+                                        <th>Account ID</th>
                                         <th>Actions</th>
                                     </tr>
-                                    <c:forEach var="spending" items="${spendings}">
+                                    <c:forEach var="spending" items="${listSpendingUser}">
                                         <tr>
-                                            <td><c:out value="${spending.id}"></c:out></td>
+                                            <td><c:out value="${spending.id}"/></td>
                                             <td><c:out value="${spending.type}"/></td>
-                                            <td><fmt:formatNumber value="${spending.amount}" type="currency"/></td>
+                                            <td><fmt:formatNumber value = "${spending.amount}" type = "currency"/></td>
                                             <td><c:out value="${spending.date}"/></td>
                                             <td><c:out value="${spending.description}"/></td>
+                                            <td><c:out value="${spending.getAccount().getId()}"/></td>
                                             <td>
                                                 <a href="/spending?action=edit&id=${spending.id}">Edit</a>
-                                            </td>
-                                            <td>
                                                 <a href="/spending?action=delete&id=${spending.id}">Delete</a>
                                             </td>
                                         </tr>
                                     </c:forEach>
                                 </table>
                             </div>
-                            <h3>Spending Total: <fmt:formatNumber value="${spendingTotalAmount}" type="currency"/></h3>
+                            <h3>Spending Total: <fmt:formatNumber value="${spendingTotalUserHomepage}" type="currency"/></h3>
                         </center>
                     </div>
+
                 </div>
 
+                <div class="col">
+                    <h2 class="header-table"><a style="text-decoration: none" href="/spending">List Of Administrator Spending</a></h2>
+                    <center>
+                        <div align="center">
+                            <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Account ID</th>
+                                    <th>Actions</th>
+                                </tr>
+                                <c:forEach var="spending" items="${listSpending}">
+                                    <tr>
+                                        <td><c:out value="${spending.id}"/></td>
+                                        <td><c:out value="${spending.type}"/></td>
+                                        <td><fmt:formatNumber value = "${spending.amount}" type = "currency"/></td>
+                                        <td><c:out value="${spending.date}"/></td>
+                                        <td><c:out value="${spending.description}"/></td>
+                                        <td><c:out value="${spending.getAccount().getId()}"/></td>
+                                        <td>
+                                            <a href="/spending?action=edit&id=${spending.id}">Edit</a>
+                                            <a href="/spending?action=delete&id=${spending.id}">Delete</a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </div>
+                        <h3>Spending Total: <fmt:formatNumber value = "${spendingTotalAdminHomepage}" type = "currency"/></h3>
+                    </center>
+                </div>
             </div>
+
         </center>
     </div>
 </c:if>

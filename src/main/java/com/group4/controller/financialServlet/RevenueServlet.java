@@ -119,9 +119,7 @@ public class RevenueServlet extends HttpServlet {
 
     public void listRevenueHomepage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        Account accountLogging = null;
-
-        accountLogging = (Account) session.getAttribute("accountLogging");
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
 
         double revenueTotalUser = 0;
         double revenueTotalAdmin = 0;

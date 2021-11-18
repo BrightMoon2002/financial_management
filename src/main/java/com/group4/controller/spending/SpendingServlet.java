@@ -6,8 +6,8 @@ import com.group4.model.financial.Spending;
 import com.group4.service.accountService.AccountService;
 import com.group4.service.financial.Revenue.IRevenueService;
 import com.group4.service.financial.Revenue.RevenueService;
-import com.group4.service.spendingService.ISpendingDAO;
 import com.group4.service.spendingService.SpendingDAO;
+import com.group4.service.spendingService.ISpendingDAO;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -21,7 +21,7 @@ import java.util.List;
 @WebServlet(name = "SpendingServlet", value = "/spending")
 public class SpendingServlet extends HttpServlet {
     private AccountService accountService = new AccountService();
-    private SpendingDAO spendingDAO = new ISpendingDAO();
+    private ISpendingDAO spendingDAO = new SpendingDAO();
     private IRevenueService revenueService = new RevenueService();
 
     @Override
@@ -188,50 +188,94 @@ public class SpendingServlet extends HttpServlet {
 
     public void listSpending(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         HttpSession session = request.getSession(false);
-        Account account = null;
+        Account accountLogging = null;
         if (session != null) {
-            account = (Account) session.getAttribute("accountLogging");
-        }
-        int id_account = account.getId();
-        if (account.getRole().getId() == 1) {
-            List<Spending> spendingList = spendingDAO.findAll();
-            request.setAttribute("spendings", spendingList);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
-            requestDispatcher.forward(request, response);
-        } else {
-            List<Spending> spendingList = spendingDAO.findAllSpendingByAccountId(id_account);
-            request.setAttribute("spendings", spendingList);
-            System.out.println(spendingList.get(0).getDescription());
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
-            requestDispatcher.forward(request, response);
+            accountLogging = (Account) session.getAttribute("accountLogging");
 
+            double spendingTotalUser = 0;
+            double spendingTotalAdmin = 0;
+            List<Spending> listSpending = null;
+            List<Spending> listSpendingUser = null;
+            System.out.println(accountLogging.getId());
+            if (accountLogging.getRole().getId() == 1) {
+                listSpending = spendingDAO.findAllSpendingByAccountId(accountLogging.getId());
+                listSpendingUser = spendingDAO.findAllSpendingNotByAccountId(accountLogging.getId());
+                for (Spending s : listSpendingUser) {
+                    spendingTotalUser += s.getAmount();
+                }
+                for (Spending s : listSpending) {
+                    spendingTotalAdmin += s.getAmount();
+                }
+
+
+                request.setAttribute("listSpending", listSpending);
+                request.setAttribute("listSpendingUser", listSpendingUser);
+                request.setAttribute("spendingTotalUser", spendingTotalUser);
+                request.setAttribute("spendingTotalAdmin", spendingTotalAdmin);
+                request.setAttribute("accountLogging", accountLogging);
+                request.setAttribute("role", accountLogging.getRole().getId());
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
+                requestDispatcher.forward(request, response);
+            } else if (accountLogging.getRole().getId() == 2) {
+                listSpending = spendingDAO.findAllSpendingByAccountId(accountLogging.getId());
+                for (Spending s : listSpending) {
+                    spendingTotalUser += s.getAmount();
+                }
+                request.setAttribute("listSpending", listSpending);
+                request.setAttribute("accountLogging", accountLogging);
+                request.setAttribute("spendingTotalUser", spendingTotalUser);
+                request.setAttribute("role", accountLogging.getRole().getId());
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
+                requestDispatcher.forward(request, response);
+            }
+
+
+
+        } else {
+            response.sendRedirect("view/error/error404.jsp");
         }
     }
 
 
     public void listSpendingHomepage(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         HttpSession session = request.getSession(false);
-        Account account = null;
-        double spendingTotalAmount = 0;
-        if (session != null) {
-            account = (Account) session.getAttribute("accountLogging");
-        }
-        int id_account = account.getId();
-        if (account.getRole().getId() == 1) {
-            List<Spending> spendingList = spendingDAO.findAll();
-            session.setAttribute("spendingsHomepage", spendingList);
-            for (Spending s : spendingList) {
-                spendingTotalAmount += s.getAmount();
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
+
+        double spendingTotalUser = 0;
+        double spendingTotalAdmin = 0;
+        List<Spending> listSpending = null;
+        List<Spending> listSpendingUser = null;
+
+        if (accountLogging.getRole().getId() == 1) {
+            listSpending = spendingDAO.findAllSpendingByAccountId(accountLogging.getId());
+            listSpendingUser = spendingDAO.findAllSpendingNotByAccountId(accountLogging.getId());
+            for (Spending s : listSpendingUser) {
+                spendingTotalUser += s.getAmount();
+            }
+            for (Spending s : listSpending) {
+                spendingTotalAdmin += s.getAmount();
             }
 
-        } else {
-            List<Spending> spendingList = spendingDAO.findAllSpendingByAccountId(id_account);
-            session.setAttribute("spendingsHomepage", spendingList);
-            for (Spending s : spendingList) {
-                spendingTotalAmount += s.getAmount();
+            session.setAttribute("listSpendingHomepage", listSpending);
+            session.setAttribute("listSpendingUserHomepage", listSpendingUser);
+            session.setAttribute("spendingTotalUserHomepage", spendingTotalUser);
+            session.setAttribute("spendingTotalAdminHomepage", spendingTotalAdmin);
+            session.setAttribute("accountLogging", accountLogging);
+            session.setAttribute("role", accountLogging.getRole().getId());
+
+
+        } else if (accountLogging.getRole().getId() == 2){
+            listSpending = spendingDAO.findAllSpendingByAccountId(accountLogging.getId());
+            for (Spending s : listSpending) {
+                spendingTotalUser += s.getAmount();
             }
+            session.setAttribute("listSpendingHomepage", listSpending);
+            session.setAttribute("accountLogging", accountLogging);
+            session.setAttribute("spendingTotalUserHomepage", spendingTotalUser);
+            session.setAttribute("roleHomepage", accountLogging.getRole().getId());
+
         }
-        session.setAttribute("spendingTotalAmount", spendingTotalAmount);
+
     }
 
     @Override
@@ -242,7 +286,11 @@ public class SpendingServlet extends HttpServlet {
         }
         switch (action) {
             case "create":
-                createNewSpending(request, response);
+                try {
+                    createNewSpending(request, response);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "edit":
                 try {
@@ -291,7 +339,7 @@ public class SpendingServlet extends HttpServlet {
 
     }
 
-    private void createNewSpending(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void createNewSpending(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
         HttpSession session = request.getSession();
         Account accountLogging = (Account) session.getAttribute("accountLogging");
         String type = request.getParameter("type");
@@ -300,6 +348,14 @@ public class SpendingServlet extends HttpServlet {
         Date date = Date.valueOf(request.getParameter("date"));
         Spending spending = new Spending(type, description, amount, date, accountLogging);
         spendingDAO.save(spending);
-        response.sendRedirect("/spending");
+        double spendingLimit = spendingDAO.checkSpendingLimit(spending);
+        double amountLimit = (spendingDAO.getAmountLimitById(accountLogging.getId())/30);
+        if (spendingLimit>amountLimit){
+            request.setAttribute("message","you spent more than your limit for a day!");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/create.jsp");
+            requestDispatcher.forward(request,response);
+        }else {
+            response.sendRedirect("/spending");
+        }
     }
 }
