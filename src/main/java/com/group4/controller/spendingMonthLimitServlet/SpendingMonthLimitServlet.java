@@ -1,5 +1,6 @@
 package com.group4.controller.spendingMonthLimitServlet;
 
+import com.group4.controller.spending.SpendingServlet;
 import com.group4.model.account.Account;
 import com.group4.model.limit.SpendingMonthLimit;
 import com.group4.service.accountService.AccountService;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -41,6 +43,9 @@ public class SpendingMonthLimitServlet extends HttpServlet {
                 break;
             case "findById":
                 showFindById(request, response);
+                break;
+            case "set":
+                setNewLimit(request, response);
                 break;
             default:
                 listLimit(request, response);
@@ -88,33 +93,31 @@ public class SpendingMonthLimitServlet extends HttpServlet {
     }
 
     private void createLimit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
+
         double amount = Double.parseDouble(request.getParameter("amount"));
-        int account_id = Integer.parseInt(request.getParameter("account_id"));
 
-        Account account = null;
-        try {
-            account = accountService.findById(account_id);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
 
-        SpendingMonthLimit limit = new SpendingMonthLimit(amount, account);
+        SpendingMonthLimit limit = new SpendingMonthLimit(amount, accountLogging);
 
         limitService.save(limit);
 
-        listLimit(request, response);
+        SpendingMonthLimit spendingMonthLimit = limitService.findLimitByAccountId(accountLogging.getId());
+
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
+        request.setAttribute("limit", spendingMonthLimit);
+        requestDispatcher.forward(request, response);
 
     }
 
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession(false);
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
+
         SpendingMonthLimit existingLimit = null;
-        try {
-            existingLimit = limitService.findById(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        existingLimit = limitService.findLimitByAccountId(accountLogging.getId());
 
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/limit/edit.jsp");
@@ -125,26 +128,29 @@ public class SpendingMonthLimitServlet extends HttpServlet {
     }
 
     private void editLimit(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession(false);
+
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
+
+        SpendingMonthLimit limit = null;
+
+        limit = limitService.findLimitByAccountId(accountLogging.getId());
+        SpendingMonthLimit newLimit = null;
+
         int id = Integer.parseInt(request.getParameter("id"));
         double amount = Double.parseDouble(request.getParameter("amount"));
-        int account_id = Integer.parseInt(request.getParameter("account_id"));
-
-        Account account = null;
-        try {
-            account = accountService.findById(account_id);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        SpendingMonthLimit limit = new SpendingMonthLimit(id, amount, account);
 
         try {
-            limitService.update(limit);
+            limitService.update(new SpendingMonthLimit(id, amount, accountLogging));
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        listLimit(request, response);
+        SpendingMonthLimit spendingMonthLimit = limitService.findLimitByAccountId(accountLogging.getId());
+
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
+        request.setAttribute("limit", spendingMonthLimit);
+        requestDispatcher.forward(request, response);
 
     }
 
@@ -202,4 +208,21 @@ public class SpendingMonthLimitServlet extends HttpServlet {
         }
     }
 
+    public void setNewLimit(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        HttpSession session = request.getSession(false);
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
+
+        SpendingMonthLimit limit = null;
+
+        limit = limitService.findLimitByAccountId(accountLogging.getId());
+
+        if (limit == null) {
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/limit/create.jsp");
+            requestDispatcher.forward(request, response);
+        } else {
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/limit/edit.jsp");
+            request.setAttribute("limit", limit);
+            requestDispatcher.forward(request, response);
+        }
+    }
 }

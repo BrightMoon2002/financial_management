@@ -119,8 +119,10 @@
 <br>
 <br>
 <c:if test="${role == 2}">
-    <div style="float: right">
-        <a style="align-items: center" class="btn btn-primary" href="limit?action=create" role="button">Add New Spending Limit</a>
+
+    <div style="float: right; margin-right: 100px">
+        <h5>Limit: <fmt:formatNumber value = "${limitAmount}" type = "currency"/></h5>
+        <a style="align-items: center; margin-bottom: 20px" class="btn btn-primary" href="limit?action=set" role="button">Set New Spending Limit</a>
     </div>
     <center>
         <div class="col">
