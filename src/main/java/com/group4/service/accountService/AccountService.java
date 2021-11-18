@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService implements IAccountService {
+    public static final String SHOW_FRIEND_LIST = "SELECT id_account2, id_account1 FROM relationship_pool join account a on a.id = relationship_pool.id_account1 join account a2 on a2.id = relationship_pool.id_account2 join relationship r on relationship_pool.id_relationship = r.id_relationship where r.id_relationship = 1 AND id_account1 = ? OR id_account2 = ?;";
+    public static final String SHOW_BLOCK_LIST = "SELECT id_account2, id_account1 FROM relationship_pool join account a on a.id = relationship_pool.id_account1 join account a2 on a2.id = relationship_pool.id_account2 join relationship r on relationship_pool.id_relationship = r.id_relationship where r.id_relationship = 2 AND id_account1 = ? OR id_account2 = ?;";
     private final Connection connection = SingletonConnection.getConnection();
     private final IRoleService roleService = new RoleService();
 
@@ -141,5 +143,51 @@ public class AccountService implements IAccountService {
             }
         }
         return account;
+    }
+@Override
+    public List<Account> showFriendListByType(String query, int id) {
+        List<Account> accountList = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id_account =  resultSet.getInt("id_account2");
+              if (id_account == id) {
+                  int id_account1 = resultSet.getInt("id_account1");
+                  Account account = findById(id_account1);
+                  accountList.add(account);
+              } else {
+                  Account account = findById(id_account);
+                  accountList.add(account);
+              }
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return accountList;
+    }
+    public List<Account> showFriendList(int id) {
+       return showFriendListByType(SHOW_FRIEND_LIST, id);
+    }
+    public List<Account> showBlockList(int id) {
+        return showFriendListByType(SHOW_BLOCK_LIST, id);
+    }
+
+    public static void main(String[] args) {
+        AccountService accountService = new AccountService();
+        List<Account> accountList = accountService.showFriendList(1);
+        List<Account> accountList1 = accountService.showBlockList(2);
+        for (Account a: accountList
+             ) {
+            System.out.println(a);
+        }
+        System.out.println("-------------");
+        for (Account a: accountList1
+             ) {
+            System.out.println(a);
+        }
     }
 }

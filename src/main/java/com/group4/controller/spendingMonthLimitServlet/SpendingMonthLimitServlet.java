@@ -90,7 +90,12 @@ public class SpendingMonthLimitServlet extends HttpServlet {
         double amount = Double.parseDouble(request.getParameter("amount"));
         int account_id = Integer.parseInt(request.getParameter("account_id"));
 
-        Account account = accountService.findById(account_id);
+        Account account = null;
+        try {
+            account = accountService.findById(account_id);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         SpendingMonthLimit limit = new SpendingMonthLimit(amount, account);
 
@@ -123,7 +128,12 @@ public class SpendingMonthLimitServlet extends HttpServlet {
         double amount = Double.parseDouble(request.getParameter("amount"));
         int account_id = Integer.parseInt(request.getParameter("account_id"));
 
-        Account account = accountService.findById(account_id);
+        Account account = null;
+        try {
+            account = accountService.findById(account_id);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         SpendingMonthLimit limit = new SpendingMonthLimit(id, amount, account);
 
