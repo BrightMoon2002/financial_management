@@ -63,7 +63,7 @@ public class AccountServlet extends HttpServlet {
             case "showAdminCreateAccount":
                 showAdminCreateAccount(request, response);
             case "showAdminPage":
-                showAdminPage(request, response);
+                showUserPage(request, response);
                 break;
             case "logoutAccount":
                 logoutAccount(request, response);
@@ -162,8 +162,9 @@ public class AccountServlet extends HttpServlet {
 
     private void showUserPage(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher("view/login/homepageUser.jsp");
+
         try {
-            revenueServlet.listRevenueHompage(request, response);
+            revenueServlet.listRevenueHomepage(request, response);
             spendingServlet.listSpendingHomepage(request, response);
         } catch (ServletException e) {
             e.printStackTrace();
@@ -182,7 +183,6 @@ public class AccountServlet extends HttpServlet {
                 double revenueTotalAdmin = (double) session.getAttribute("revenueTotalAdminHomepage");
                 request.setAttribute("revenueTotalAdmin", revenueTotalAdmin);
             }
-
             List<Account> friendList = accountService.showFriendList(account.getId());
             double spendingTotalAmount = spendingDAO.getTotalById(account.getId());
             double revenueTotalUser = revenueService.getTotalById(account.getId());
@@ -200,6 +200,7 @@ public class AccountServlet extends HttpServlet {
             request.setAttribute("spendings", spendingList);
             request.setAttribute("accountBalance", accountBalance);
             request.setAttribute("friendList", friendList);
+            request.setAttribute("role", account.getRole().getId());
 
             try {
                 dispatcher.forward(request, response);
