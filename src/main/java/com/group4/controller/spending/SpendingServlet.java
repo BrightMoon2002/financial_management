@@ -157,6 +157,7 @@ public class SpendingServlet extends HttpServlet {
             request.setAttribute("spendings", spendingList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/spending/list.jsp");
             requestDispatcher.forward(request, response);
+
         }
     }
 

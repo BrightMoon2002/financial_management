@@ -39,7 +39,6 @@ public class AccountService implements IAccountService {
                 String email = resultSet.getString("email");
                 String address = resultSet.getString("address");
                 boolean status = resultSet.getBoolean("status");
-                System.out.println(status);
                 int role_id = resultSet.getInt("role_id");
                 Role role = roleService.findById(role_id);
                 accountList.add(new Account(id, username, password, name, dob, email, address, status, role));
