@@ -212,14 +212,14 @@ public class AccountService implements IAccountService {
     public boolean addFriend(int id1, int id2) {
        boolean rowAddFriend = false;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO relationship_pool (id_account1, id_account2, id_relationship) VALUE (?, ?, ?);");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO relationship_pool (id_account1, id_account2, id_relationship) VALUE (?, ?, 1);");
             preparedStatement.setInt(1, id1);
             preparedStatement.setInt(2, id2);
-            preparedStatement.setInt(1, 1);
            rowAddFriend =  preparedStatement.executeUpdate() > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        System.out.println(rowAddFriend);
         return rowAddFriend;
     }
 
@@ -247,6 +247,7 @@ public class AccountService implements IAccountService {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        System.out.println(rowBlock);
         return rowBlock;
     }
 
@@ -262,6 +263,7 @@ public class AccountService implements IAccountService {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        System.out.println(rowBlock);
         return rowBlock;
     }
 }

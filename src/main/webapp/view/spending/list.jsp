@@ -117,7 +117,7 @@
             <th>Amount</th>
             <th>Date</th>
             <th>Edit</th>
-            <th>Delete</th>
+<%--            <th>Delete</th>--%>
         </tr>
         <c:forEach var="spending" items="${spendings}">
             <tr>
@@ -129,9 +129,9 @@
                 <td>
                     <a href="/spending?action=edit&id=${spending.id}">Edit</a>
                 </td>
-                <td>
-                    <a href="/spending?action=delete&id=${spending.id}">Delete</a>
-                </td>
+<%--                <td>--%>
+<%--                    <a href="/spending?action=delete&id=${spending.id}">Delete</a>--%>
+<%--                </td>--%>
             </tr>
         </c:forEach>
     </table>
