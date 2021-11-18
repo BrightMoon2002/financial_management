@@ -1,15 +1,21 @@
 package com.group4.controller.loanServlet;
 
 import com.group4.model.account.Account;
+import com.group4.model.financial.Revenue;
+import com.group4.model.financial.Spending;
 import com.group4.model.loan.Interest;
 import com.group4.model.loan.Loan;
 import com.group4.model.loan.Loan_Status;
 import com.group4.service.accountService.AccountService;
 import com.group4.service.accountService.IAccountService;
+import com.group4.service.financial.Revenue.IRevenueService;
+import com.group4.service.financial.Revenue.RevenueService;
 import com.group4.service.loan.IInterestService;
 import com.group4.service.loan.ILoanService;
 import com.group4.service.loan.InterestService;
 import com.group4.service.loan.ServiceLoan;
+import com.group4.service.spendingService.ISpendingDAO;
+import com.group4.service.spendingService.SpendingDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,6 +38,8 @@ public class LoanServlet extends HttpServlet {
     private ILoanService loanService = new ServiceLoan();
     private IInterestService iInterestService = new InterestService();
     private IAccountService accountService = new AccountService();
+    private IRevenueService revenueService = new RevenueService();
+    private SpendingDAO spendingDAO = new ISpendingDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -228,76 +236,122 @@ public class LoanServlet extends HttpServlet {
 
     private void editLoan (HttpServletRequest req, HttpServletResponse resp) {
         int id_account = Integer.parseInt(req.getParameter("id"));
+        HttpSession session = req.getSession();
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
         try {
-            Loan loan = loanService.findById(id_account);
-            if (loan == null) {
-                RequestDispatcher dispatcher = req.getRequestDispatcher("view/book/error.jsp");
+            Account account = accountService.findById(id_account);
+            if (accountLogging.getRole().getId() == 1) {
                 try {
-                    dispatcher.forward(req, resp);
-                } catch (ServletException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                    Loan loan = loanService.findById(id_account);
+                    if (loan == null) {
+                        RequestDispatcher dispatcher = req.getRequestDispatcher("view/book/error.jsp");
+                        try {
+                            dispatcher.forward(req, resp);
+                        } catch (ServletException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        String name = req.getParameter("name");
+                        Date startOfLoan = Date.valueOf(req.getParameter("startOfLoan"));
+                        Date endOfLoan = Date.valueOf(req.getParameter("endOfLoan"));
+                        double amount = Double.parseDouble(req.getParameter("amount"));
+                        int idInterest = Integer.parseInt(req.getParameter("idInterest"));
+                        String status = req.getParameter("status");
+                        Account account1 = accountService.findById(id_account);
+                        Interest interest = iInterestService.findById(idInterest);
+                        int id_status;
+
+                        if (status.equals("dont paid")) {
+                            id_status = 2;
+                            Loan_Status loan_status = new Loan_Status(id_status, status);
+
+                            Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account1, interest, loan_status);
+
+                            loanService.update(loanUpdate);
+                            String type = "loan";
+                            String description = "loan " + startOfLoan;
+                            Date date = Date.valueOf(LocalDate.now());
+                            Revenue revenue = new Revenue(type,description, amount, date, account);
+                            revenueService.save(revenue);
+
+
+
+
+                            String typeS = "loan " + account.getName();
+                            String descriptionS = "loan " + startOfLoan;
+                            Date dateS = Date.valueOf(LocalDate.now());
+                            Account accountAdmin = accountService.findById(1);
+                            Spending spending = new Spending(typeS,descriptionS, amount, date, accountAdmin);
+                            spendingDAO.save(spending);
+
+                        } else  if (status.equals("paid")) {
+                            id_status = 1;
+                            Loan_Status loan_status = new Loan_Status(id_status, status);
+
+                            Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+
+                            loanService.update(loanUpdate);
+
+                            loanService.update(loanUpdate);
+                            String type = "paid loan";
+                            String description = "paid loan " + startOfLoan;
+                            Date date = Date.valueOf(LocalDate.now());
+                            Account accountAdmin = accountService.findById(1);
+                            Revenue revenue = new Revenue(type,description, amount, date, accountAdmin);
+                            revenueService.save(revenue);
+
+
+
+
+                            String typeS = "paid loan " + account.getName();
+                            String descriptionS = "paid loan " + startOfLoan;
+                            Date dateS = Date.valueOf(LocalDate.now());
+
+                            Spending spending = new Spending(typeS,descriptionS, amount, date, account);
+                            spendingDAO.save(spending);
+                        } else if (status.equals("pending")) {
+                            id_status = 4;
+                            Loan_Status loan_status = new Loan_Status(id_status, status);
+
+                            Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+
+                            loanService.update(loanUpdate);
+                        } else if (status.equals("over date")){
+                            id_status = 3;
+                            Loan_Status loan_status = new Loan_Status(id_status, status);
+
+                            Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+
+                            loanService.update(loanUpdate);
+                        } else {
+                            id_status = 5;
+                            Loan_Status loan_status = new Loan_Status(id_status, status);
+
+                            Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+
+                            loanService.update(loanUpdate);
+                        }
+
+
+                        try {
+                            resp.sendRedirect("/loans");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
             } else {
-                String name = req.getParameter("name");
-                Date startOfLoan = Date.valueOf(req.getParameter("startOfLoan"));
-                Date endOfLoan = Date.valueOf(req.getParameter("endOfLoan"));
-                double amount = Double.parseDouble(req.getParameter("amount"));
-                int idInterest = Integer.parseInt(req.getParameter("idInterest"));
-                String status = req.getParameter("status");
-                Account account = accountService.findById(id_account);
-                Interest interest = iInterestService.findById(idInterest);
-                    int id_status;
-
-                if (status.equals("dont paid")) {
-                    id_status = 2;
-                    Loan_Status loan_status = new Loan_Status(id_status, status);
-
-                    Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
-
-                    loanService.update(loanUpdate);
-                } else  if (status.equals("paid")) {
-                    id_status = 1;
-                    Loan_Status loan_status = new Loan_Status(id_status, status);
-
-                    Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
-
-                    loanService.update(loanUpdate);
-                } else if (status.equals("pending")) {
-                    id_status = 4;
-                    Loan_Status loan_status = new Loan_Status(id_status, status);
-
-                    Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
-
-                    loanService.update(loanUpdate);
-                } else if (status.equals("over date")){
-                    id_status = 3;
-                    Loan_Status loan_status = new Loan_Status(id_status, status);
-
-                    Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
-
-                    loanService.update(loanUpdate);
-                } else {
-                    id_status = 5;
-                    Loan_Status loan_status = new Loan_Status(id_status, status);
-
-                    Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
-
-                    loanService.update(loanUpdate);
-                }
-
-
-                try {
-                    resp.sendRedirect("/loans");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                resp.sendRedirect("/loans");
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException | IOException throwables) {
+            throwables.printStackTrace();
         }
+
 
     }
 
