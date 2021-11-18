@@ -111,7 +111,13 @@
 
 
 </center>
-<<<<<<< HEAD
+<br>
+<br>
+
+<div style="float: right">
+    <a style="align-items: center" class="btn btn-primary" href="limit?action=create" role="button">Add New Spending Limit</a>
+</div>
+
 <br>
 <br>
 <c:if test="${role == 2}">
@@ -186,7 +192,7 @@
                             </c:forEach>
                         </table>
                     </div>
-                    <h3>sSpending Total: <fmt:formatNumber value="${spendingTotalUser}" type="currency"/></h3>
+                    <h3>Spending Total: <fmt:formatNumber value="${spendingTotalUser}" type="currency"/></h3>
                 </center>
             </div>
 

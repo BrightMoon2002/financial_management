@@ -257,18 +257,20 @@ public class AccountServlet extends HttpServlet {
                 request.setAttribute("revenueTotalAdmin", revenueTotalAdmin);
                 double spendingTotalAdmin = (double) session.getAttribute("spendingTotalAdminHomepage");
                 request.setAttribute("spendingTotalAdmin", spendingTotalAdmin);
+                double revenueTotalAmountAdminHomePage = (double) session.getAttribute("revenueTotalAdminHomepage");
+                double spendingTotalAmountAdminHomePage = (double) session.getAttribute("spendingTotalAdminHomepage");
+                request.setAttribute("spendingTotalAdminHomepage", spendingTotalAmountAdminHomePage);
+                request.setAttribute("revenueTotalAdminHomepage", revenueTotalAmountAdminHomePage);
             }
             List<Account> friendList = accountService.showFriendList(account.getId());
 
             double revenueTotalAmountUserHomePage = (double) session.getAttribute("revenueTotalUserHomepage");
-            double revenueTotalAmountAdminHomePage = (double) session.getAttribute("revenueTotalAdminHomepage");
             double spendingTotalAmountUserHomePage = (double) session.getAttribute("spendingTotalUserHomepage");
-            double spendingTotalAmountAdminHomePage = (double) session.getAttribute("spendingTotalAdminHomepage");
 
             request.setAttribute("revenueTotalUserHomepage", revenueTotalAmountUserHomePage);
-            request.setAttribute("revenueTotalAdminHomepage", revenueTotalAmountAdminHomePage);
+
             request.setAttribute("spendingTotalUserHomepage", spendingTotalAmountUserHomePage);
-            request.setAttribute("spendingTotalAdminHomepage", spendingTotalAmountAdminHomePage);
+
 
 
             double spendingTotalUser = spendingDAO.getTotalById(account.getId());
