@@ -50,7 +50,7 @@ public class LoanServlet extends HttpServlet {
                 showEditForm(req, resp);
                 break;
             case "search":
-
+                showListLoan(req, resp);
                 break;
             default:
                 showListLoanById(req, resp);
@@ -100,13 +100,24 @@ public class LoanServlet extends HttpServlet {
 
     private void showListLoan(HttpServletRequest req, HttpServletResponse resp) {
         List<Loan> loanList;
-        try {
-            loanList = loanService.findAll();
+        String pendingList = req.getParameter("searchPending");
+        String rejectList = req.getParameter("searchReject");
+        HttpSession session = req.getSession();
+        Account accountLogging = (Account) session.getAttribute("accountLogging");
+        if (pendingList == null && rejectList == null) {
+            try {
+                loanList = loanService.findAll();
+                req.setAttribute("list", loanList);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        } else if (rejectList == null){
+            loanList = loanService.getPendingLoan();
             req.setAttribute("list", loanList);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } else  {
+            loanList = loanService.getRejectLoan(accountLogging.getId());
+            req.setAttribute("list", loanList);
         }
-
         RequestDispatcher dispatcher;
         dispatcher = req.getRequestDispatcher("/view/loan/list.jsp");
         try {
@@ -260,8 +271,15 @@ public class LoanServlet extends HttpServlet {
                     Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
 
                     loanService.update(loanUpdate);
-                } else {
+                } else if (status.equals("over date")){
                     id_status = 3;
+                    Loan_Status loan_status = new Loan_Status(id_status, status);
+
+                    Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
+
+                    loanService.update(loanUpdate);
+                } else {
+                    id_status = 5;
                     Loan_Status loan_status = new Loan_Status(id_status, status);
 
                     Loan loanUpdate = new Loan(id_account, startOfLoan, endOfLoan, amount, account, interest, loan_status);
@@ -292,7 +310,7 @@ public class LoanServlet extends HttpServlet {
         Account account = accountService.findById(id_account);
         try {
             Interest interest = iInterestService.findById(idInterest);
-            Loan_Status loan_status = new Loan_Status(2, "chưa trả");
+            Loan_Status loan_status = new Loan_Status(2, "dont paid");
             if (idInterest == 1) {
                 LocalDate localDate = startOfLoan.toLocalDate();
                 LocalDate endOfLoan = localDate.plusMonths(1);

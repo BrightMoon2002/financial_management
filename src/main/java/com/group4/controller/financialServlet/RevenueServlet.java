@@ -67,7 +67,7 @@ public class RevenueServlet extends HttpServlet {
     }
 
 
-    private void listRevenue(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void listRevenue(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         Account accountLogging = null;
         if (session != null) {
@@ -95,7 +95,7 @@ public class RevenueServlet extends HttpServlet {
                 request.setAttribute("revenueTotalAdmin", revenueTotalAdmin);
                 request.setAttribute("accountLogging", accountLogging);
                 request.setAttribute("role", accountLogging.getRole().getId());
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/homepageAdmin.jsp");
                 requestDispatcher.forward(request, response);
             } else if (accountLogging.getRole().getId() == 2) {
                 listRevenue = revenueService.findAllByAccountId(accountLogging.getId());
@@ -106,7 +106,8 @@ public class RevenueServlet extends HttpServlet {
                 request.setAttribute("accountLogging", accountLogging);
                 request.setAttribute("revenueTotalUser", revenueTotalUser);
                 request.setAttribute("role", accountLogging.getRole().getId());
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/revenue/list.jsp");
+                System.out.println("mmmmmmm" +  accountLogging.getRole().getId());
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("view/login/homepageUser.jsp");
                 requestDispatcher.forward(request, response);
             }
 

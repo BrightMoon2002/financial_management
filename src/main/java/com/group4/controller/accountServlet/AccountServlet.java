@@ -1,5 +1,4 @@
 package com.group4.controller.accountServlet;
-
 import com.group4.model.account.Account;
 import com.group4.model.account.Role;
 import com.group4.service.accountService.AccountService;
