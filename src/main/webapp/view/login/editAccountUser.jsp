@@ -71,6 +71,10 @@
         -o-animation: my 700ms infinite;
         animation: my 700ms infinite;
     }
+    #tab{
+        margin-left: 400px;
+        width: 700px;
+    }
 </style>
 <body>
 <div class="nav">
@@ -154,7 +158,7 @@
 <center>
     <h1><a href="/login?action=showUserPage" style="border: none; color: #dc3545; text-decoration: none">Home Page</a></h1>
 </center>
-<div align="center">
+<div align="center" id="tab">
     <form method="post">
         <table border="1" cellpadding="5" class="table table-info table-hover table-striped">
             <tr>
