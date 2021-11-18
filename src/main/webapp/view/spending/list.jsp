@@ -5,6 +5,7 @@
   Time: 5:47 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
@@ -101,41 +102,138 @@
         </div>
     </div>
 </nav>
+
+
+
+
+<center>
+    <h1>Spending Management</h1>
+
+
 </center>
-<div align="center" class="content">
-    <h3><c:if test="${[meesage]!=null}">
-        <c:out value="${meesage}"></c:out>
-    </c:if></h3>
-    <table border="1" cellpadding="5" class="table table-success table-striped table-hover ">
-        <tr>
-            <td colspan="7" style="text-align: center"><h4>List Spending</h4></td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        <c:forEach var="spending" items="${spendings}">
-            <tr>
-                <td><c:out value="${spending.getAccount().getName()}"/></td>
-                <td><c:out value="${spending.type}"/></td>
-                <td><c:out value="${spending.description}"/></td>
-                <td><c:out value="${spending.amount}"/></td>
-                <td><c:out value="${spending.date}"/></td>
-                <td>
-                    <a href="/spending?action=edit&id=${spending.id}">Edit</a>
-                </td>
-                <td>
-                    <a href="/spending?action=delete&id=${spending.id}">Delete</a>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
-</div>
+<br>
+<br>
+<c:if test="${role == 2}">
+    <center>
+        <div class="col">
+            <h2 class="header-table"><a style="text-decoration: none" href="/spending">List Of Spending</a> </h2>
+            <div>
+                <center>
+                    <div align="center">
+                        <table style="width: 90%" border="1" cellpadding="5" class="table table-success table-striped table-hover ">
+                            <tr>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                            <c:forEach var="spending" items="${listSpending}">
+                                <tr>
+                                    <td><c:out value="${spending.id}"/></td>
+                                    <td><c:out value="${spending.type}"/></td>
+                                    <td><fmt:formatNumber value = "${spending.amount}" type = "currency"/></td>
+                                    <td><c:out value="${spending.date}"/></td>
+                                    <td><c:out value="${spending.description}"/></td>
+                                    <td>
+                                        <a href="/spending?action=edit&id=${spending.id}">Edit</a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+
+                        </table>
+                    </div>
+                    <h3>Revenue Total: <fmt:formatNumber value = "${spendingTotalUser}" type = "currency"/></h3>
+                </center>
+            </div>
+        </div>
+    </center>
+</c:if>
+
+
+<c:if test="${role == 1}">
+    <center>
+        <div class="col">
+            <h2 style="padding: 0" class="header-table"><a style="text-decoration: none" href="/spending">List Of User Spending</a></h2>
+            <div>
+                <center>
+                    <div align="center">
+                        <table style="width: 90%;" border="1" cellpadding="5" class="table table-success table-striped table-hover ">
+                            <tr>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Account ID</th>
+                                <th>Actions</th>
+                            </tr>
+                            <c:forEach var="spending" items="${listSpendingUser}">
+                                <tr>
+                                    <td><c:out value="${spending.id}"/></td>
+                                    <td><c:out value="${spending.type}"/></td>
+                                    <td><fmt:formatNumber value = "${spending.amount}" type = "currency"/></td>
+                                    <td><c:out value="${spending.date}"/></td>
+                                    <td><c:out value="${spending.description}"/></td>
+                                    <td><c:out value="${spending.getAccount().getId()}"/></td>
+                                    <td>
+                                        <a href="/spending?action=edit&id=${spending.id}">Edit</a>
+                                        <a href="/spending?action=delete&id=${spending.id}">Delete</a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </div>
+                    <h3>sSpending Total: <fmt:formatNumber value="${spendingTotalUser}" type="currency"/></h3>
+                </center>
+            </div>
+
+        </div>
+
+        <br>
+        <br>
+
+        <div class="col">
+            <h2 style="padding: 0" class="header-table"><a style="text-decoration: none" href="/spending">List Of Administrator Spending</a></h2>
+            <center>
+                <div align="center">
+                    <table style="width: 90%;" border="1" cellpadding="5" class="table table-success table-striped table-hover ">
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Account ID</th>
+                            <th>Actions</th>
+                        </tr>
+                        <c:forEach var="spending" items="${listSpending}">
+                            <tr>
+                                <td><c:out value="${spending.id}"/></td>
+                                <td><c:out value="${spending.type}"/></td>
+                                <td><fmt:formatNumber value = "${spending.amount}" type = "currency"/></td>
+                                <td><c:out value="${spending.date}"/></td>
+                                <td><c:out value="${spending.description}"/></td>
+                                <td><c:out value="${spending.getAccount().getId()}"/></td>
+                                <td>
+                                    <a href="/spending?action=edit&id=${spending.id}">Edit</a>
+                                    <a href="/spending?action=delete&id=${spending.id}">Delete</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+                <h3>Spending Total: <fmt:formatNumber value = "${spendingTotalAdmin}" type = "currency"/></h3>
+            </center>
+        </div>
+    </center>
+</c:if>
+
+
+<center>
+    <a style="align-items: center" class="btn btn-primary" href="spending?action=create" role="button">Add New Spending</a>
+</center>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
