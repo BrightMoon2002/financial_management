@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ISpendingDAO implements SpendingDAO {
-    public static final String TOTAL_SPENDING = "SELECT SUM(amount) total from speding r group by account_id having account_id = ?;";
+    public static final String TOTAL_SPENDING = "SELECT SUM(amount) total from spending r group by account_id having account_id = ?;";
     private AccountService accountService = new AccountService();
     private Spending spending = new Spending();
     private static Connection connection = SingletonConnection.getConnection();
