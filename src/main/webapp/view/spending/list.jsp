@@ -114,13 +114,14 @@
 <br>
 <br>
 
-<div style="float: right">
-    <a style="align-items: center" class="btn btn-primary" href="limit?action=create" role="button">Add New Spending Limit</a>
-</div>
+
 
 <br>
 <br>
 <c:if test="${role == 2}">
+    <div style="float: right">
+        <a style="align-items: center" class="btn btn-primary" href="limit?action=create" role="button">Add New Spending Limit</a>
+    </div>
     <center>
         <div class="col">
             <h2 class="header-table"><a style="text-decoration: none" href="/spending">List Of Spending</a> </h2>
